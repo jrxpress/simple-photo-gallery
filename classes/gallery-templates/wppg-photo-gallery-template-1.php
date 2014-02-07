@@ -1,6 +1,11 @@
 <?php
 class WPPG_Gallery_Template_1
 {
+    function __construct()
+    {
+        //NOP
+    }
+
     function render_gallery($gallery_id)
     {
         $pagination = false; //Initialize
@@ -85,7 +90,8 @@ class WPPG_Gallery_Template_1
                     //Don't create a watermark URL if the watermark field was empty in the gallery settings. Display original image instead
                     $preview_url = $wppgPhotoObj->image_file_url;
                 }
-                $button_html = '<input type="button" value="'.__("View Image", "wpphotogallery").'" class="gallerybutton wppg-template1-view-button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" />';
+                //$button_html = '<input type="button" value="'.__("View Image", "wpphotogallery").'" class="gallerybutton wppg-template1-view-button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" />';
+                $button_html = '<a href="'.$preview_url.'" class="wppg_popup wppg-template1-lb-view" id="viewPhotoDetails_'.$wppgPhotoObj->id.'">'.__("View Image", "wpphotogallery").'</a>';
             }
 
     ?>
@@ -115,5 +121,18 @@ class WPPG_Gallery_Template_1
 ?>            
         </div> <!--end wppg-gallery-display div --> 
 <?php
+        if($display_photo_details_page == 0){
+            //Load lightbox css file
+            wp_enqueue_style('jquery-lightbox-css', WP_PHOTO_URL . '/js/jquery-lightbox/css/jquery.lightbox-0.5.css');
+            
+            //Load lightbox js files
+            wp_enqueue_script('wppg-lb-script-js', WP_PHOTO_URL.'/js/simple_photo_gallery_js.js', array('jquery'));
+            wp_localize_script('wppg-lb-script-js', 'WPPG_LIGHTBOX_JS', 
+                                    array('imgLoading'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-ico-loading.gif',
+                                        'imgbtnPrev'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-prev.gif',
+                                        'imgbtnNext'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-next.gif',
+                                        'imgBlank'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-blank.gif',
+                                        'imgbtnClose'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-close.gif'));
+        }
     }
 }

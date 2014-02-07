@@ -1,6 +1,11 @@
 <?php
 class WPPG_Gallery_Template_2
 {
+    function __construct()
+    {
+        //NOP
+    }
+    
     function render_gallery($gallery_id)
     {
         $pagination = false; //Initialize
@@ -120,7 +125,7 @@ class WPPG_Gallery_Template_2
 	<div class="wpsg-t2-item">
             <div class="wpsg-t2-top" style="height:<?php echo $h; ?>px; width:<?php echo $w; ?>px;">
                 <div class="wpsg-t2-thumb" style="height:<?php echo $h; ?>px; width:<?php echo $w; ?>px;">
-                    <a class="wpps_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
+                    <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
                         <img alt="<?php echo $wppgPhotoObj->alt_text ?>" src="<?php echo $thumbnail_src ?>">
                     </a>                    
                     <div class="wpsg-t2-meta">
@@ -143,6 +148,19 @@ class WPPG_Gallery_Template_2
 ?>            
         </div> <!--end wppg-gallery-display div --> 
 <?php
+        if($display_photo_details_page == 0){
+            //Load lightbox css file
+            wp_enqueue_style('jquery-lightbox-css', WP_PHOTO_URL . '/js/jquery-lightbox/css/jquery.lightbox-0.5.css');
+            
+            //Load lightbox js files
+            wp_enqueue_script('wppg-lb-script-js', WP_PHOTO_URL.'/js/simple_photo_gallery_js.js', array('jquery'));
+            wp_localize_script('wppg-lb-script-js', 'WPPG_LIGHTBOX_JS', 
+                                    array('imgLoading'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-ico-loading.gif',
+                                        'imgbtnPrev'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-prev.gif',
+                                        'imgbtnNext'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-next.gif',
+                                        'imgBlank'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-blank.gif',
+                                        'imgbtnClose'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-close.gif'));
+       }
     }
     
     static function calculate_thumb_img_width_given_desired_height($src_img, $desired_height, $img_height = '', $img_width = '')

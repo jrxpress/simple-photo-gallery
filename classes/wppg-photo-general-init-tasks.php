@@ -26,6 +26,7 @@ class WPPG_General_Init_Tasks
         }else{
             //Load front end side scripts here
             wp_enqueue_style('wppg-photo-css', WP_PHOTO_URL . '/css/wppg-photo.css', null, WP_PHOTO_VERSION, 'all');
+            wp_enqueue_script('jquery-lightbox', WP_PHOTO_URL . '/js/jquery-lightbox/js/jquery.lightbox-0.5.js', array('jquery'), WP_PHOTO_VERSION);
         }
     }
     

@@ -87,7 +87,7 @@ class WPPGPhotoGallery
         return $image_ids;
     }
     
-    function process_gallery_images($num_gallery_images)
+    function process_gallery_images($num_gallery_images, $existing_gallery_id)
     {
         //let's loop through the POST data and get the image details and insert into DB
         $gallery_id = $this->id;
@@ -114,10 +114,10 @@ class WPPGPhotoGallery
             if($src_img_gallery_id != ''){
                 //this means the image is already being used by another gallery - so let's copy the applicable files over to the tmp dir
                 //TODO
-                $res = WPPGPhotoGallery::copy_existing_images_to_gallery_dir($src_img_gallery_id, $current_image_id, $gallery_id);
+                $res = WPPGPhotoGallery::copy_existing_images_to_gallery_dir($src_img_gallery_id, $current_image_id, $existing_gallery_id);
                 if ($res) {
                     //Let's create a new post of type attachment
-                    $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $gallery_id);
+                    $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $existing_gallery_id);
                     if($new_image_id !== false){
                         //Let's add our special meta key for this image
                         update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
@@ -132,10 +132,10 @@ class WPPGPhotoGallery
             {
                 //TODO
                 //This is an existing image somewhere on this site.
-                $res = WPPGPhotoGallery::copy_media_library_images_to_gallery_dir($current_image_id, $gallery_id);
+                $res = WPPGPhotoGallery::copy_media_library_images_to_gallery_dir($current_image_id, $existing_gallery_id);
                 if ($res) {
                     //Let's create a new post of type attachment if necessary
-                    $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $gallery_id);
+                    $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $existing_gallery_id);
                     if($new_image_id === true){
                         //For case where media library image is already part of this gallery's directory
                         //Let's add our special meta key for this image
@@ -294,6 +294,12 @@ class WPPGPhotoGallery
         if(empty($current_gallery_id)){
             $dirpath = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.WPPG_UPLOAD_TEMP_DIRNAME;
             WP_Photo_Gallery_Utility::create_dir($dirpath);
+        }else{
+            //Check if the existing gallery has its own upload dir...create one if necessary
+            $dirpath = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir;
+            if(!is_dir($dirpath)){
+                WP_Photo_Gallery_Utility::create_dir($dirpath);
+            }
         }
         
         foreach ($image_files_to_copy as $image_file){
@@ -351,6 +357,12 @@ class WPPGPhotoGallery
         if(empty($current_gallery_id)){
             $dirpath = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.WPPG_UPLOAD_TEMP_DIRNAME;
             WP_Photo_Gallery_Utility::create_dir($dirpath);
+        }else{
+            //Check if the existing gallery has its own upload dir...create one if necessary
+            $dirpath = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir;
+            if(!is_dir($dirpath)){
+                WP_Photo_Gallery_Utility::create_dir($dirpath);
+            }
         } 
         
         foreach ($image_files_to_copy as $image_file){

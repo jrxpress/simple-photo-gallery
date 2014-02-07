@@ -136,6 +136,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         }
         //Initialize some variables
         $new_gallery_id = '';
+        $existing_gallery_id = '';
         $g = new WPPGPhotoGallery($gallery_id);
         $gallery_name = ($g->name != NULL)?$g->name:'';
         $gallery_watermark = ($g->watermark != NULL)?$g->watermark:'';
@@ -240,7 +241,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             $gallery_sort_order = $_POST['wppg_gallery_sort_order'];
             $gallery_thumb_template = $_POST['wppg_gallery_thumb_template'];
             
-            //$gallery_photo_preview = isset($_POST['wppg_gallery_photo_preview'])?'1':'0'; //TODO - implement this setting when we introduce a lightbox display as alternative
+            $gallery_photo_preview = isset($_POST['wppg_gallery_photo_preview'])?'1':'0';
 
             $gallery_pagination = isset($_POST['wppg_gallery_pagination'])?'1':'0';
             $gallery_thumbs_per_page = sanitize_text_field($_POST['wppg_thumbs_per_page']);
@@ -250,6 +251,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             }else{
                 if($gallery_id != NULL){
                     //Update existing gallery
+                    $existing_gallery_id = $gallery_id;
                     $gallery_data = array(
                         'id' => $gallery_id,
                         'name' => $gallery_name,
@@ -297,7 +299,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                 
                 //Now let's process the selected gallery photos
                 if (isset($_POST['wppg_img_count']) && $num_gallery_images != NULL){
-                    $g->process_gallery_images($num_gallery_images);
+                    $g->process_gallery_images($num_gallery_images, $existing_gallery_id);
                 }
                 
                 //Now let's rename the temp dir if applicable
@@ -374,14 +376,12 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                 <span class="description"><?php _e('Choose the sort order of your gallery images when they are displayed on the front end of your site', 'simple_photo_gallery'); ?></span>
                 </td>
             </tr>
-<!--            <tr>
+            <tr>
                 <th scope="row"><?php _e('Preview Photo via Page', 'simple_photo_gallery');?>:</th>
                 <td><input name="wppg_gallery_photo_preview" type="checkbox" <?php echo ($gallery_photo_preview == '1')? 'checked="checked"' : ''; ?>/>
-                <span class="description"><?php _e('This setting will show previews of your photos on a separate page instead of using a lightbox. The usage of this option is recommended.', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('When enabled this setting will show previews of your photos on a separate page. When disabled your photo previews will be via a lightbox. (Activating this option is recommended)', 'simple_photo_gallery'); ?></span>
                 </td> 
             </tr>
--->
-            
             <tr><td colspan="2"><div class="wppg_section_separator_1"></div></td></tr>
             <tr>
                 <th scope="row"><?php _e('Watermark Text', 'simple_photo_gallery');?>:</th>
