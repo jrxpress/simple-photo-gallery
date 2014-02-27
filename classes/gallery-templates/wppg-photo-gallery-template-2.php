@@ -39,7 +39,7 @@ class WPPG_Gallery_Template_2
             $path = $wppgPhotoObj->thumb_url;
             $image_file_url = $wppgPhotoObj->image_file_url;
 
-            $h = '125';//Max height for the gallery images in this template
+            $h = '150';//Max height for the gallery images in this template
             $w = WPPG_Gallery_Template_2::calculate_thumb_img_width_given_desired_height($image_file_url,$h,$wppgPhotoObj->image_height ,$wppgPhotoObj->image_width);
             
             //Get a resized thumbnail using WP functions
@@ -67,7 +67,7 @@ class WPPG_Gallery_Template_2
                     $query_params = array('gallery_id'=>$gallery_id,'image_id'=>$image_id);
                 }
                     $preview_url = add_query_arg($query_params, $preview_page);
-                    $button_html = '<span class="wpsg-t2-buy-link"><a href="'.$preview_url.'">'.__("View Photo", "wpphotogallery").'</a></span>';
+                    $button_html = '<span class="wpsg-t2-buy-link"><a href="'.$preview_url.'">'.__("View", "wpphotogallery").'</a></span>';
             }
             else
             {
@@ -118,7 +118,7 @@ class WPPG_Gallery_Template_2
                     //Don't create a watermark URL if the watermark field was empty in the gallery settings. Display original image instead
                     $preview_url = $wppgPhotoObj->image_file_url;
                 }
-                $button_html =  '<input type="button" id="addToCart_'.$wppgPhotoObj->id.'" class="wps-gallery-button wpsg-t2-buy-input" value="'.__("View Photo", "wpphotogallery").'">';
+                $button_html =  '<input type="button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" class="wppg_popup wps-gallery-button wpsg-t2-buy-input" value="'.__("View", "wpphotogallery").'">';
             }
 
     ?>
@@ -128,11 +128,11 @@ class WPPG_Gallery_Template_2
                     <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
                         <img alt="<?php echo $wppgPhotoObj->alt_text ?>" src="<?php echo $thumbnail_src ?>">
                     </a>                    
-                    <div class="wpsg-t2-meta">
+<!--                    <div class="wpsg-t2-meta">
                         <div class="wpsg-t2-buy-button">
                             <?php echo $button_html; ?>
                         </div>
-                    </div>                   
+                    </div>                   -->
                 </div>                
             </div>
 	</div><!-- end of .wpsg-t2-item -->

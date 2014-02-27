@@ -90,7 +90,6 @@ class WPPGPhotoGallery
     function process_gallery_images($num_gallery_images, $existing_gallery_id)
     {
         //let's loop through the POST data and get the image details and insert into DB
-        $gallery_id = $this->id;
         $j=0;
         while ($j<$num_gallery_images)
         {
@@ -120,13 +119,13 @@ class WPPGPhotoGallery
                     $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $existing_gallery_id);
                     if($new_image_id !== false){
                         //Let's add our special meta key for this image
-                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
+                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
                     }                        
                 }
             }
             else if($new_img_upload)
             {
-                update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
+                update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
             }
             else
             {
@@ -139,11 +138,11 @@ class WPPGPhotoGallery
                     if($new_image_id === true){
                         //For case where media library image is already part of this gallery's directory
                         //Let's add our special meta key for this image
-                        update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
+                        update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
                     }else if($new_image_id !== false){
                         //Case where a new image post was created after copying original image
                         //Let's add our special meta key for this image
-                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
+                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
                     }                        
                 }
             }
@@ -174,7 +173,7 @@ class WPPGPhotoGallery
             $image_post = get_post($image_id);
             $image_desc = $image_post->post_content;
             $upload_date = $image_post->post_date;
-
+            $image_url = wp_get_attachment_url($image_id);
             //if the alt text meta is blank, let's set it to the image name
             if ($alt_text == '' || $alt_text == NULL){
                 $alt_text = $image_post->post_name;
@@ -184,7 +183,8 @@ class WPPGPhotoGallery
                 'thumb_url' => $thumb_url,
                 'alt_text' => $alt_text,
                 'description' => $image_desc,
-                'date_uploaded' => $upload_date
+                'date_uploaded' => $upload_date,
+                'image_url' => $image_url
             );
 
             $gallery_images_array[] = $image_info;

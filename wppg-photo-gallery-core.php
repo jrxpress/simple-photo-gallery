@@ -3,7 +3,7 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.2';
+    var $version = '1.3';
     var $db_version = '1.2';
     var $plugin_url;
     var $plugin_path;
@@ -61,11 +61,12 @@ class WP_Photo_Gallery{
     }
 
     function includes() {
-        //Load common files for everywhere
+        //Load common files
         include_once('classes/wppg-photo-debug-logger.php');
         include_once('classes/wppg-photo-utility.php');
         include_once('classes/wppg-photo-gallery-item-class.php');
         include_once('classes/wppg-photo-general-init-tasks.php');
+        include_once('classes/wppg-shortcode-utility.php');
 
         if (is_admin()){ //Load admin side only files
             include_once('admin/wppg-photo-admin-init.php');
@@ -116,7 +117,6 @@ class WP_Photo_Gallery{
         require_once(WP_PHOTO_PATH . "/classes/wppg-photo-gallery-item-class.php");
         require_once(WP_PHOTO_PATH . "/classes/wppg-photo-gallery-class.php");
         
-        add_action('wp_head',array(&$this, 'do_wppg_head_tasks'));
         new WPPG_General_Init_Tasks();
         //Plugin into code goes here... actions, filters, shortcodes goes here
         //add_action(....);
@@ -169,25 +169,6 @@ class WP_Photo_Gallery{
         }
         return $path_data;
     }
-    
-    function do_wppg_head_tasks()
-    {
-        //Check if Photo details page
-        $page_id = get_the_ID();
-        if(!empty($page_id))
-        {
-            $current_page = get_post($page_id);
-            if ($current_page->post_name == 'wppg_photo_details'){
-                //Only load stylesheet when on the photo details page
-                wp_enqueue_style('wppg-photo-details-css', WP_PHOTO_URL . '/classes/gallery-templates/css/wppg-photo-details.css', null, WP_PHOTO_VERSION, 'all');
-                if(isset($_GET['gallery_id'])){
-                    $gallery_id = strip_tags($_GET['gallery_id']);
-                    $gallery = new WPPGPhotoGallery($gallery_id);
-                }
-            }
-        }        
-    }
-
     
 }//End of class
 

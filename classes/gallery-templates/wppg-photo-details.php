@@ -169,7 +169,7 @@ if(!empty($gallery->password)){
 
 if($gallery_count > 0){
     //Photo navigation info eg, - "Displaying photo 1 of 20"
-    $photo_nav_info = sprintf( __('Displaying photo %s of %s', 'WPS'), $img_index+1, $gallery_count);
+    $photo_nav_info = sprintf( __('Displaying photo %s of %s', 'simple_photo_gallery'), $img_index+1, $gallery_count);
 }
 
 ?>

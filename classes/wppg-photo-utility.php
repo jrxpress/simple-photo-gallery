@@ -89,4 +89,16 @@ class WP_Photo_Gallery_Utility
         
     }
     
+    static function start_buffer()
+    {
+        ob_start();
+    }
+    
+    static function end_buffer_and_collect()
+    {
+        $output = ob_get_contents();
+        ob_end_clean();
+        return $output;
+    }    
+    
 }

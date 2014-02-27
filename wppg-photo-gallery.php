@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Simple Photo Gallery
-Version: v1.2
+Version: v1.3
 Plugin URI: http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin
 Author: Tips and Tricks HQ, Peter Petreski
 Author URI: http://www.tipsandtricks-hq.com/
-Description: A simple and user-friendly photo gallery plugin for your site.
-License: GPL2 or later
+Description: A simple and user-friendly photo gallery plugin for your WordPress web site.
+License: GPL3
 */
 
 if(!defined('ABSPATH'))exit; //Exit if accessed directly

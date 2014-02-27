@@ -8,12 +8,14 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
     var $menu_tabs = array(
         'tab1' => 'Gallery Management', 
         'tab2' => 'Add/Edit',
+        'tab3' => 'Selling Your Photos',
 
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
         'tab2' => 'render_tab2',
+        'tab3' => 'render_tab3',
         );
 
     function __construct() 
@@ -496,5 +498,39 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         </script>        
             <?php
     }
+    
+    function render_tab3() 
+    {
+        ?>
+        <h2><?php _e('Sell Your Digital and Physical Photos', 'simple_photo_gallery')?></h2>
+        <div class="postbox">
+        <h3><label for="title"><?php _e('WP Photo Seller Plugin', 'simple_photo_gallery'); ?></label></h3>
+        <div class="inside">
+        <div class="wppg_blue_box">
+            <div>
+            <?php
+                $click_here_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('Click Here', 'simple_photo_gallery').'</a>';
+                $photoseller_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('WP Photo Seller', 'simple_photo_gallery').'</a>';
+                echo '<p>'.sprintf( __('If you are looking for a flexible and professional solution to sell your photos from your WordPress site then you should check out the <strong>%s</strong> plugin.', 'simple_photo_gallery'), $photoseller_link).'</p>';
+                echo '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank"><img src="'.WP_PHOTO_URL.'/images/photo-seller-banner-240-103.png'.'"></a>';
+                echo '<p>'.__('Some of the features and highlights of this plugin include:','simple_photo_gallery').'</p>';
+            ?>
+            </div>
+            <ul class="wppg_admin_ul_grp1">
+                <li><?php _e('Ability to sell both digital and physical photos.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Sell digital photos with varying size and price options. Pugin will automatically create and deliver secure download link to your customers.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Secure digital delivery of photos - the plugin creates and automatically sends encrypted links to your customers.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Flexible photo variation options - make as many versions/types of the same (physical or digital) photo and sell for different prices.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Inventory control of your photo stocks - set inventory levels for specified photos. Very useful when selling physical prints.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Watermarking of photos when previewing.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Zoom functionality to allow your customers to examine finer details of your photos without the need to display full resolution image.', 'simple_photo_gallery'); ?></li>
+            </ul>
+            <p><?php _e('....and loads more!', 'simple_photo_gallery'); ?></p>
+            <p><?php echo sprintf( __('%s to see more features and a demo.', 'simple_photo_gallery'), $click_here_link); ?></p>
+        </div>
+        </div></div>
+        <?php
+    }
+    
     
 } //end class

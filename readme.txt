@@ -1,10 +1,10 @@
 === Simple Photo Gallery ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
 Donate link: http://www.tipsandtricks-hq.com/development-center
-Tags: gallery, photo gallery, wordpress photo gallery, watermarking, image, images, media, photo, photo albums, photos, picture, thumbnails
+Tags: gallery, photo gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, photos, picture, thumbnails, slider, gallery slider,
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -37,7 +37,10 @@ Below is a list of the features offered in this photo gallery plugin:
 * The plugin allows you to apply pagination to your gallery thumbnail display. This is useful for people who have a large number of photos per gallery.
 
 = Gallery lightbox = 
-* Ability to use lightbox effect on your gallery images
+* Ability to use lightbox effect on your gallery images.
+
+= Gallery Slider =
+* Ability to create image slider using your gallery images.
 
 = Plugin Support =
 * If you have a question or problem with the Simple Photo Gallery plugin, post it on the support section and we will try to help you.
@@ -45,7 +48,7 @@ Below is a list of the features offered in this photo gallery plugin:
 = Translations =
 * Simple Photo Gallery plugin can be translated to any language.
 
-Visit the [WordPress Photo Gallery Plugin](http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin) page for more details.
+Visit the [WordPress Photo Gallery Plugin](http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin) page for detailed usage instruction.
 
 == Installation ==
 
@@ -60,16 +63,32 @@ Go to the Gallery menu under 'Photo Gallery' and start creating your photo galle
 
 When you create a new gallery and upload images for the gallery, the plugin will automatically create a page to show the images.
 
+= Showing a Image Slider = 
+
+To display a particular gallery or several galleries using a slider you simply need to use the following shortcode:
+
+[wppg_photo_slider id="25"]
+
+The "id" parameter represents the gallery ID. You can specify a single gallery or several gallery IDs separated by commas as shown in the example above.
+
 == Screenshots ==
 None
 
 == Frequently Asked Questions ==
-None
+
+= Can I create lots of galleries using my photos? =
+Yes.
+
+= Can I display my galleries using a slider? =
+Yes.
 
 == Upgrade Notice ==
 None
 
 == Changelog ==
+= 1.3 =
+- Added a new feature which will allow the display of gallery images via a responsive slider. You can create a photo gallery slider easily now.
+- Fixed a bug where galleries using template 2 did not display the photo-details page correctly.
 
 = 1.2 =
 - Added new option which will allow the previewing of photos either via a details page or a lightbox effect.
