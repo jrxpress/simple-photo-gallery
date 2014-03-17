@@ -151,7 +151,7 @@ class WPPG_List_Galleries extends WP_Photo_Gallery_List_Table {
             }
 
             //Delete gallery page if it exists
-            $g = new WPPGPhotoGallery($entry);
+            $g = new WPPGPhotoGallery($entries);
             $p = get_post($g->page_id);
             if($p){
                 wp_delete_post($p->ID,true);

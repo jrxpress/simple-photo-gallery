@@ -3,11 +3,11 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.3';
+    var $version = '1.4';
     var $db_version = '1.2';
     var $plugin_url;
     var $plugin_path;
-    var $plugin_configs;//TODO - Does it need to be static?
+    var $configs;
     var $admin_init;
     var $debug_logger;
 
@@ -33,7 +33,7 @@ class WP_Photo_Gallery{
     
     function load_configs(){
         include_once('classes/wppg-photo-config.php');
-        $this->plugin_configs = WP_Photo_Gallery_Config::get_instance();
+        $this->configs = WP_Photo_Gallery_Config::get_instance();
     }
     
     function define_constants(){

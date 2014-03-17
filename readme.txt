@@ -1,10 +1,10 @@
 === Simple Photo Gallery ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
 Donate link: http://www.tipsandtricks-hq.com/development-center
-Tags: gallery, photo gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, photos, picture, thumbnails, slider, gallery slider,
+Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, 
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.3
+Stable tag: 1.4
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -21,8 +21,9 @@ Below is a list of the features offered in this photo gallery plugin:
 * Upload your photos using the native WordPress uploader.
 * Add as many images as you want to your photo gallery
 * Edit the images and other image properties (example: name, alt text etc).
-* Exclude/include photos which are part of a gallery
-* Automatic creation of stylish front end gallery pages
+* Exclude/include photos which are part of a gallery.
+* Automatic creation of stylish front end gallery pages.
+* Ability to sort your gallery images.
 * Flexible gallery shortcodes which you can apply to any post or page to insert your gallery.
 
 = Watermarking =
@@ -86,6 +87,10 @@ Yes.
 None
 
 == Changelog ==
+= 1.4 =
+- Added gallery home page sorting capability. This setting will allow the administrator to set the order in which galleries are displayed on the gallery home page.
+- Fixed shortcode logic to now display page and shortcode content properly.
+
 = 1.3 =
 - Added a new feature which will allow the display of gallery images via a responsive slider. You can create a photo gallery slider easily now.
 - Fixed a bug where galleries using template 2 did not display the photo-details page correctly.

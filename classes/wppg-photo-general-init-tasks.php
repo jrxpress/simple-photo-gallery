@@ -61,29 +61,35 @@ class WPPG_General_Init_Tasks
             case '0':
                 require_once 'gallery-templates/wppg-photo-gallery-template-1.php';
                 $template1 = new WPPG_Gallery_Template_1();
-                $template1->render_gallery($gallery_id);
+                $output = $template1->render_gallery($gallery_id);
                 break;
             case '1': 
                 require_once 'gallery-templates/wppg-photo-gallery-template-2.php';
                 $template2 = new WPPG_Gallery_Template_2();
-                $template2->render_gallery($gallery_id);
+                $output = $template2->render_gallery($gallery_id);
                 break;
             default:
                 require_once 'gallery-templates/wppg-photo-gallery-template-1.php';
                 $template1 = new WPPG_Gallery_Template_1();
-                $template1->render_gallery($gallery_id);
+                $output = $template1->render_gallery($gallery_id);
        }
-       return;
+       return $output;
     }
 
     function wppg_photo_gallery_home_sc_handler($attrs)
     {
         require_once 'gallery-templates/wppg-gallery-home.php';
+        $gallery_home = new WPPG_Gallery_Home();
+        $output = $gallery_home->render_gallery_home();
+        return $output;
     }
 
     function wppg_photo_details_sc_handler($attrs)
     {
         require_once 'gallery-templates/wppg-photo-details.php';
+        $photo_details = new WPPG_Gallery_Photo_Details();
+        $output = $photo_details->render_photo_details();
+        return $output;
     }
     
     function wppg_photo_slider_sc_handler($attrs)

@@ -12,8 +12,9 @@ class WPPG_Gallery_Template_2
         $gallery = new WPPGPhotoGallery($gallery_id);
         $display_photo_details_page = $gallery->display_image_on_page;
         $gallery_items = WPPGPhotoGallery::getGalleryItems($gallery_id);
-        echo '<link type="text/css" rel="stylesheet" href="'.WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-2.css?ver='.WP_PHOTO_VERSION.'" />';//Load the CSS file for this view
+        WP_Photo_Gallery_Utility::start_buffer();
 ?>
+        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-2.css?ver='.WP_PHOTO_VERSION; ?>" />
         <div id="wppg-gallery-template-2">
 <?php
         //Add Pagination if applicable
@@ -161,6 +162,8 @@ class WPPG_Gallery_Template_2
                                         'imgBlank'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-blank.gif',
                                         'imgbtnClose'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-close.gif'));
        }
+       $output = WP_Photo_Gallery_Utility::end_buffer_and_collect();
+       return $output;
     }
     
     static function calculate_thumb_img_width_given_desired_height($src_img, $desired_height, $img_height = '', $img_width = '')

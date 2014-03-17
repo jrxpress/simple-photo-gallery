@@ -12,13 +12,16 @@ class WPPG_Gallery_Template_1
         $gallery = new WPPGPhotoGallery($gallery_id);
         $display_photo_details_page = $gallery->display_image_on_page;
         $gallery_items = WPPGPhotoGallery::getGalleryItems($gallery_id);
-        echo '<link type="text/css" rel="stylesheet" href="'.WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-1.css?ver='.WP_PHOTO_VERSION.'" />';//Load the CSS file for this view
+        WP_Photo_Gallery_Utility::start_buffer();
 ?>
+        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-1.css?ver='.WP_PHOTO_VERSION ?>" />
         <div id="wppg-gallery-display">
 <?php
         //Add Pagination if applicable
         if ($gallery->enable_pagination == 1){
-            echo '<link type="text/css" rel="stylesheet" href="'.WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-pagination.css?ver='.WP_PHOTO_VERSION.'" />';//Load the CSS file for this view        
+?>
+            <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-pagination.css?ver='.WP_PHOTO_VERSION; ?>" />
+<?php            
             $pagination = WPPGPhotoGallery::apply_gallery_pagination($gallery, $gallery_items);
             if ($pagination !== false){
                 $gallery_items = $pagination['array'];
@@ -116,7 +119,9 @@ class WPPG_Gallery_Template_1
     <?php
          //Insert pagination nav bar at bottom
         if ($gallery->enable_pagination == 1 && $pagination !== false){
-            echo '<div class="wppg_photo_gallery_pagination">'.$pagination['panel'].'</div>';    
+?>
+            <div class="wppg_photo_gallery_pagination"><?php echo $pagination['panel']; ?></div>    
+<?php    
         }        
 ?>            
         </div> <!--end wppg-gallery-display div --> 
@@ -134,5 +139,7 @@ class WPPG_Gallery_Template_1
                                         'imgBlank'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-blank.gif',
                                         'imgbtnClose'=>WP_PHOTO_URL.'/js/jquery-lightbox/images/lightbox-btn-close.gif'));
         }
+        $output = WP_Photo_Gallery_Utility::end_buffer_and_collect();
+        return $output;
     }
 }
