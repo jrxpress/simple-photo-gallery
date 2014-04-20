@@ -90,7 +90,7 @@ Yes.
 None
 
 == Changelog ==
-= 1.5=
+= 1.5 =
 = Added a new masonry style gallery template for photo galleries. Select template 3 when creating galleries to use this new masonry style template.
 
 = 1.4 =
