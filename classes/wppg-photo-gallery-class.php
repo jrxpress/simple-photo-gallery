@@ -535,7 +535,7 @@ class WPPGPhotoGallery
         imagedestroy($image); //clean up some memory
         $resized = image_make_intermediate_size($source_dir.$watermark_image_name, $desired_width, $desired_height); //Use the WP function to resize the watermarked image to that specified in the settings
         if ($resized === false){
-            $wp_photo_gallery->debug_logger->log_debug('WPPGPhotoGallery::createWatermarkImage - image_make_intermediate_size failed and returned false!');
+            $wp_photo_gallery->debug_logger->log_debug('WPPGPhotoGallery::createWatermarkImage - image_make_intermediate_size failed and returned false!',4);
         }else{
             rename($source_dir.$resized['file'], $source_dir.$watermark_image_name); //Since the above WP function uses a different naming convention we will change the name back to our convention
         }

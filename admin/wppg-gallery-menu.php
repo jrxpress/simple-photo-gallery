@@ -354,6 +354,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                     <select id="wppg_gallery_thumb_template" name="wppg_gallery_thumb_template">
                         <option value="0" <?php selected( $gallery_thumb_template, '0' ); ?>><?php _e( 'Template 1', 'simple_photo_gallery' ); ?></option>
                         <option value="1" <?php selected( $gallery_thumb_template, '1' ); ?>><?php _e( 'Template 2', 'simple_photo_gallery' ); ?></option>
+                        <option value="2" <?php selected( $gallery_thumb_template, '2' ); ?>><?php _e( 'Template 3 (Masonry)', 'simple_photo_gallery' ); ?></option>
                     </select>
                 <span class="description"><?php _e('Choose the template style for displaying your gallery thumbnails', 'simple_photo_gallery'); ?></span>
                 <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>

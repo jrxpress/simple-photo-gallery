@@ -1,10 +1,10 @@
 === Simple Photo Gallery ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
 Donate link: http://www.tipsandtricks-hq.com/development-center
-Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, 
+Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry,
 Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 1.4
+Tested up to: 3.9
+Stable tag: 1.5
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -30,6 +30,9 @@ Below is a list of the features offered in this photo gallery plugin:
 * Ability to add any text of your choice for watermarking.
 * Ability to set the watermarking text opacity, font size and placement.
 * Specify the watermarked image size which your visitors will see.
+
+= Masonry Style Photo Gallery =
+* You can create photo galleries using the masonry style (it works by placing elements in optimal position based on available vertical space)
 
 = Gallery Thumbnail Templates =
 * Choose between various thumbnail templates for your galleries such as a stylish rectangular frame or thumbnails which depict the true landscape/portrait nature of your photos.
@@ -87,6 +90,9 @@ Yes.
 None
 
 == Changelog ==
+= 1.5=
+= Added a new masonry style gallery template for photo galleries. Select template 3 when creating galleries to use this new masonry style template.
+
 = 1.4 =
 - Added gallery home page sorting capability. This setting will allow the administrator to set the order in which galleries are displayed on the gallery home page.
 - Fixed shortcode logic to now display page and shortcode content properly.

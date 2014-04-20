@@ -68,6 +68,11 @@ class WPPG_General_Init_Tasks
                 $template2 = new WPPG_Gallery_Template_2();
                 $output = $template2->render_gallery($gallery_id);
                 break;
+            case '2': 
+                require_once 'gallery-templates/wppg-photo-gallery-template-3.php';
+                $template3 = new WPPG_Gallery_Template_3();
+                $output = $template3->render_gallery($gallery_id);
+                break;            
             default:
                 require_once 'gallery-templates/wppg-photo-gallery-template-1.php';
                 $template1 = new WPPG_Gallery_Template_1();

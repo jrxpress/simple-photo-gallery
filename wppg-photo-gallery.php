@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simple Photo Gallery
-Version: v1.4
+Version: v1.5
 Plugin URI: http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin
 Author: Tips and Tricks HQ, Peter Petreski
 Author URI: http://www.tipsandtricks-hq.com/
