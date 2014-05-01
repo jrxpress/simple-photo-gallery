@@ -152,9 +152,20 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         $gallery_category = ($g->category != NULL)?$g->category:'';
         $gallery_pagination = ($g->enable_pagination != NULL)?$g->enable_pagination:'';
         $gallery_thumbs_per_page = ($g->thumbs_per_page != NULL)?$g->thumbs_per_page:'';
+        $gallery_page_id = ($g->page_id != NULL)?$g->page_id:'0';
         
         include_once 'wppg-list-gallery-images.php'; //For rendering the gallery images table
         $gallery_image_list = new WPPG_List_Gallery_Images();
+        
+        $gallery_page_url = '';
+        $preview_gallery_page_msg = '';
+        if($gallery_page_id != 0){
+            $gallery_page_url = get_permalink($gallery_page_id);
+            $preview_gallery_page_msg .= '<div class="wppg_blue_box wppg_one_third_width">';
+            $preview_link = '<a href="'.$gallery_page_url.'" target="_blank">'.__('click here', 'WPS').'</a>';
+            $preview_gallery_page_msg .= '<p>'.sprintf( __('To preview your gallery page on the front end %s', 'WPS'), $preview_link).'</p>';
+            $preview_gallery_page_msg .= '</div>';
+        }
         
         if(isset($_REQUEST['action'])) //Do list table form row action tasks
         {
@@ -301,7 +312,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                 
                 //Now let's process the selected gallery photos
                 if (isset($_POST['wppg_img_count']) && $num_gallery_images != NULL){
-                    $g->process_gallery_images($num_gallery_images, $existing_gallery_id);
+                    $g->process_gallery_images($num_gallery_images, $gallery_id);
                 }
                 
                 //Now let's rename the temp dir if applicable
@@ -335,7 +346,8 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         
    ?>
         <h2><?php _e('Create/Edit Gallery', 'simple_photo_gallery')?></h2>
-        
+        <?php echo $preview_gallery_page_msg; ?>
+
         <div class="postbox wppg-gallery-settings-section">
         <h3><label for="title"><?php _e('Gallery Settings', 'simple_photo_gallery'); ?></label></h3>
         <div class="inside">

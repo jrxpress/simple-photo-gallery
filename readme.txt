@@ -4,7 +4,7 @@ Donate link: http://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry,
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -76,7 +76,8 @@ To display a particular gallery or several galleries using a slider you simply n
 The "id" parameter represents the gallery ID. You can specify a single gallery or several gallery IDs separated by commas as shown in the example above.
 
 == Screenshots ==
-None
+See the following page for screenshots:
+http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin/
 
 == Frequently Asked Questions ==
 
@@ -86,10 +87,17 @@ Yes.
 = Can I display my galleries using a slider? =
 Yes.
 
+= Can I create masonry style photo gallery with this plugin? =
+Yes.
+
 == Upgrade Notice ==
 None
 
 == Changelog ==
+= 1.6 =
+- Added a preview link in the gallery settings page which shows the front end page for the applicable gallery
+- Fixed bug: All photo meta data was not being saved correctly when a new gallery was created.
+
 = 1.5 =
 = Added a new masonry style gallery template for photo galleries. Select template 3 when creating galleries to use this new masonry style template.
 
