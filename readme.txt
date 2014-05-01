@@ -94,12 +94,13 @@ Yes.
 None
 
 == Changelog ==
+
 = 1.6 =
 - Added a preview link in the gallery settings page which shows the front end page for the applicable gallery
 - Fixed bug: All photo meta data was not being saved correctly when a new gallery was created.
 
 = 1.5 =
-= Added a new masonry style gallery template for photo galleries. Select template 3 when creating galleries to use this new masonry style template.
+- Added a new masonry style gallery template for photo galleries. Select template 3 when creating galleries to use this new masonry style template.
 
 = 1.4 =
 - Added gallery home page sorting capability. This setting will allow the administrator to set the order in which galleries are displayed on the gallery home page.
