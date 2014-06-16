@@ -137,3 +137,9 @@
     border-width: 1px;   
     padding: 0 0 0 1em;
 }
+
+.wppg_checkbox_grid li {
+    display: block;
+    float: left;
+    width: 35%;
+}

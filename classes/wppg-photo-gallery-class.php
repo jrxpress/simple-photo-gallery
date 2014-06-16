@@ -54,7 +54,7 @@ class WPPGPhotoGallery
 
     function create_or_update_gallery($gallery_data)
     {
-        global $wpdb;
+        global $wpdb, $wp_photo_gallery;
         $table = WPPG_TBL_GALLERY;
         $gallery_id = $this->id;
         $result = false;
@@ -63,7 +63,7 @@ class WPPGPhotoGallery
             $condition = array('id' => $gallery_id);
             $result = $wpdb->update( $table, $gallery_data, $condition);
             if ($result == false){
-                //TODO - add log
+                $wp_photo_gallery->debug_logger->log_debug("Update failed for Gallery ID: ".$gallery_id,4);
                 echo "<br /> Gallery update failed!!!";
                 return $result;
             }
@@ -72,7 +72,7 @@ class WPPGPhotoGallery
             $result = $wpdb->insert( $table, $gallery_data);
             $gallery_id = $wpdb->insert_id;
             if ($result == false){
-                //TODO - add log
+                $wp_photo_gallery->debug_logger->log_debug("New gallery DB insert failed!",4);
                 echo "<br /> New gallery insert failed!!!";
                 return $result;
             }
@@ -102,17 +102,16 @@ class WPPGPhotoGallery
             $image_meta = wp_get_attachment_metadata($current_image_id);
             $img_file = $image_meta['file'];
             
-            $pos = strpos($img_file, 'simple_photo_gallery');
+            $pos = strpos($img_file, 'spgallery');
             
             if ($pos !== false) {
                 $new_img_upload = true;
             }
-            //TODO - Let's first check if this image is already being used by another gallery - if so, copy the image and create a new attachment post
+            //Let's first check if this image is already being used by another gallery - if so, copy the image and create a new attachment post
             $src_img_gallery_id = get_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, true);
 
             if($src_img_gallery_id != ''){
                 //this means the image is already being used by another gallery - so let's copy the applicable files over to the tmp dir
-                //TODO
                 $res = WPPGPhotoGallery::copy_existing_images_to_gallery_dir($src_img_gallery_id, $current_image_id, $existing_gallery_id);
                 if ($res) {
                     //Let's create a new post of type attachment
@@ -129,7 +128,6 @@ class WPPGPhotoGallery
             }
             else
             {
-                //TODO
                 //This is an existing image somewhere on this site.
                 $res = WPPGPhotoGallery::copy_media_library_images_to_gallery_dir($current_image_id, $existing_gallery_id);
                 if ($res) {
@@ -247,7 +245,7 @@ class WPPGPhotoGallery
           $old_string = $wp_attached_file[0];
           $new_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_string, 1);
           $wp_attached_file[0] = $new_string;
-          update_post_meta($post_id, '_wp_attached_file', $wp_attached_file[0]); //TODO
+          update_post_meta($post_id, '_wp_attached_file', $wp_attached_file[0]);
 
           $post_info = get_post($post_id, ARRAY_A);
           $old_string = $post_info['guid'];
@@ -266,6 +264,7 @@ class WPPGPhotoGallery
      */
     static function copy_existing_images_to_gallery_dir($src_img_gallery_id, $image_id, $current_gallery_id)
     {
+        global $wp_photo_gallery;
         $result = '';
         $upload_dir = wp_upload_dir();
         $original_image_file = '';
@@ -305,7 +304,7 @@ class WPPGPhotoGallery
         foreach ($image_files_to_copy as $image_file){
             $result = copy($image_file['orig_file_path'], $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename']);
             if ($result === FALSE){
-                //TODO - WPSCommon::log('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Image copy failed from " . $image_file['orig_file_path'] ."to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename']);
+                $wp_photo_gallery->debug_logger->log_debug("Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename'],4);
                 return FALSE;
             }
         }
@@ -322,6 +321,7 @@ class WPPGPhotoGallery
      */
     static function copy_media_library_images_to_gallery_dir($image_id, $current_gallery_id)
     {
+        global $wp_photo_gallery;
         $result = '';
         $upload_dir = wp_upload_dir();
         if ($current_gallery_id == ''){
@@ -368,7 +368,7 @@ class WPPGPhotoGallery
         foreach ($image_files_to_copy as $image_file){
             $result = copy($image_file['orig_file_path'], $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename']);
             if ($result === FALSE){
-                //TODO - WPSCommon::log('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] Image copy failed from " . $image_file['orig_file_path'] ."to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename']);
+                $wp_photo_gallery->debug_logger->log_debug("Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename'],4);
                 return FALSE;
             }
         }
@@ -671,7 +671,7 @@ class WPPGPhotoGallery
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$prev_page.'">« Previous</a>';
                 $nav_panel .= '</span>';
-                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','simple_photo_gallery').' '.$page.' '.__('of','simple_photo_gallery').' '.$num_pages.'</span>';
+                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','spgallery').' '.$page.' '.__('of','spgallery').' '.$num_pages.'</span>';
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$next_page.'">Next »</a>';
                 $nav_panel .= '</span>';
@@ -683,7 +683,7 @@ class WPPGPhotoGallery
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$prev_page.'">« Previous</a>';
                 $nav_panel .= '</span>';
-                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','simple_photo_gallery').' '.$page.' '.__('of','simple_photo_gallery').' '.$num_pages.'</span>';
+                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','spgallery').' '.$page.' '.__('of','spgallery').' '.$num_pages.'</span>';
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$next_page.'">Next »</a>';
                 $nav_panel .= '</span>';
@@ -695,7 +695,7 @@ class WPPGPhotoGallery
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$prev_page.'">« Previous</a>';
                 $nav_panel .= '</span>';
-                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','simple_photo_gallery').' '.$page.' '.__('of','simple_photo_gallery').' '.$num_pages.'</span>';
+                $nav_panel .= '<span class="wppg_pagination_text">'.__('Displaying Page','spgallery').' '.$page.' '.__('of','spgallery').' '.$num_pages.'</span>';
                 $nav_panel .= '<span class="wppg_pagination_navigation_links">';
                 $nav_panel .= '<a href="'.$next_page.'">Next »</a>';
                 $nav_panel .= '</span>';
@@ -716,8 +716,14 @@ class WPPGPhotoGallery
         global $wpdb, $wp_photo_gallery;
         $table = WPPG_TBL_GALLERY;
         $gallery_obj = new WPPGPhotoGallery($gallery_id);
-        $g_p = get_page_by_path('wppg_photogallery');
-        $parentId = $g_p->ID;
+        $gallery_home_page_id = $wp_photo_gallery->configs->get_value('wppg_gallery_home_page_id');
+        if(empty($gallery_home_page_id)){
+            $g_p = get_page_by_path('wppg_photogallery');
+            $parentId = $g_p->ID;
+        }else{
+            $parentId = $gallery_home_page_id;
+        }
+        
         $p = '';
         if($gallery_obj->page_id != 0 || !empty($gallery_obj->page_id))
         {

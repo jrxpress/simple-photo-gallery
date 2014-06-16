@@ -86,7 +86,7 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             //Process delete bulk actions
             if(!isset($_REQUEST['item']))
             {
-                $error_msg = '<p>'.__('Error - Please select some records using the checkboxes', 'WPS').'</p>';
+                $error_msg = '<p>'.__('Error - Please select some records using the checkboxes', 'spgallery').'</p>';
                 echo '<div id="message" class="error fade">'.$error_msg.'</div>';
             }else 
             {            
@@ -99,7 +99,7 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             //Process remove bulk actions
             if(!isset($_REQUEST['item']))
             {
-                $error_msg = '<p>'.__('Error - Please select some records using the checkboxes', 'WPS').'</p>';
+                $error_msg = '<p>'.__('Error - Please select some records using the checkboxes', 'spgallery').'</p>';
                 echo '<div id="message" class="error fade">'.$error_msg.'</div>';
             }else 
             {            
@@ -122,7 +122,7 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             foreach($entries as $entry){
                 $result = wp_delete_attachment($entry, true);
                 if ($result == NULL) {
-                    $errors .= '<p><strong>'.sprintf(__('The deletion of attachment with image ID %s failed!', 'WPS'), $entry).'</strong></p>';
+                    $errors .= '<p><strong>'.sprintf(__('The deletion of attachment with image ID %s failed!', 'spgallery'), $entry).'</strong></p>';
                 }
             }
         } elseif ($entries != NULL)
@@ -130,14 +130,14 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             //Remove a single image from the gallery
             $result = wp_delete_attachment($entries, true);
             if ($result == NULL) {
-                $errors .= '<p><strong>'.sprintf(__('The deletion of attachment with image ID %s failed!', 'WPS'), $entries).'</strong></p>';
+                $errors .= '<p><strong>'.sprintf(__('The deletion of attachment with image ID %s failed!', 'spgallery'), $entries).'</strong></p>';
             }
         }
         
         if($errors == '')
         {
             $success_msg = '<div id="message" class="updated fade"><p><strong>';
-            $success_msg .= __('The selected images were successfully deleted from the system permanently!','WPS');
+            $success_msg .= __('The selected images were successfully deleted from the system permanently!','spgallery');
             $success_msg .= '</strong></p></div>';
             _e($success_msg);
         }else{
@@ -161,7 +161,7 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             foreach($entries as $entry){
                 $result = delete_post_meta($entry, $meta_key);
                 if ($result == NULL) {
-                    $errors .= '<p><strong>'.sprintf(__('Removal of image ID %s from gallery failed!', 'WPS'), $entry).'</strong></p>';
+                    $errors .= '<p><strong>'.sprintf(__('Removal of image ID %s from gallery failed!', 'spgallery'), $entry).'</strong></p>';
                 }
             }
         } elseif ($entries != NULL)
@@ -169,14 +169,14 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
             //Remove a single image from the gallery
             $result = delete_post_meta($entries, $meta_key);
             if ($result == NULL) {
-                $errors .= '<p><strong>'.sprintf(__('Removal of image ID %s from gallery failed!', 'WPS'), $entries).'</strong></p>';
+                $errors .= '<p><strong>'.sprintf(__('Removal of image ID %s from gallery failed!', 'spgallery'), $entries).'</strong></p>';
             }
         }
         
         if($errors == '')
         {
             $success_msg = '<div id="message" class="updated fade"><p><strong>';
-            $success_msg .= __('The selected images were removed from the gallery successfully!','WPS');
+            $success_msg .= __('The selected images were removed from the gallery successfully!','spgallery');
             $success_msg .= '</strong></p></div>';
             _e($success_msg);
         }else{

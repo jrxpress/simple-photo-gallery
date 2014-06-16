@@ -3,8 +3,8 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.6';
-    var $db_version = '1.2';
+    var $version = '1.7';
+    var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
     var $configs;
@@ -41,13 +41,14 @@ class WP_Photo_Gallery{
         define('WP_PHOTO_URL', $this->plugin_url());
         define('WP_PHOTO_PATH', $this->plugin_path());
         define('WP_PHOTO_DB_VERSION', $this->db_version);
-        define('WP_PHOTO_TEXT_DOMAIN', 'simple_photo_gallery');
+        define('WP_PHOTO_TEXT_DOMAIN', 'spgallery');
   
         define('WP_PHOTO_MANAGEMENT_PERMISSION', 'add_users');
         define('WP_PHOTO_MENU_SLUG_PREFIX', 'wppg');
         define('WP_PHOTO_MAIN_MENU_SLUG', 'wppg_main');
         define('WP_PHOTO_SETTINGS_MENU_SLUG', 'wppg_settings');
         define('WP_PHOTO_GALLERY_MENU_SLUG', 'wppg_gallery');
+        define('WP_PHOTO_ALBUM_MENU_SLUG', 'wppg_album');
 
         define('WPPG_UPLOAD_SUB_DIRNAME', 'simple_photo_gallery');
         define('WPPG_UPLOAD_TEMP_DIRNAME', 'wppg_gallery_tmp_dir');
@@ -55,6 +56,7 @@ class WP_Photo_Gallery{
   
         global $wpdb;
         define('WPPG_TBL_GALLERY', $wpdb->prefix . 'wppg_gallery');
+        define('WPPG_TBL_ALBUM', $wpdb->prefix . 'wppg_album');
         define('WPPG_TBL_SETTINGS', $wpdb->prefix . 'wppg_settings');
         define('WPPG_TBL_DOWNLOADS', $wpdb->prefix . 'wppg_downloads');
         define('WPPG_TBL_GLOBAL_META_DATA', $wpdb->prefix . 'wppg_global_meta');
@@ -67,6 +69,8 @@ class WP_Photo_Gallery{
         include_once('classes/wppg-photo-gallery-item-class.php');
         include_once('classes/wppg-photo-general-init-tasks.php');
         include_once('classes/wppg-shortcode-utility.php');
+        include_once('classes/wppg-photo-gallery-class.php');
+        include_once('classes/wppg-photo-album-class.php');
 
         if (is_admin()){ //Load admin side only files
             include_once('admin/wppg-photo-admin-init.php');
@@ -107,16 +111,16 @@ class WP_Photo_Gallery{
             
             add_filter('wp_handle_upload_prefilter', array( &$this, 'custom_upload_filter'));
             add_filter('wp_handle_upload', array( &$this, 'handle_upload') );
-            add_filter('media_upload_tabs', array( &$this, 'remove_medialibrary_tab'), 10, 1); //This is to remove the media library tab on LHS from the uploader popup
+            //add_filter('media_upload_tabs', array( &$this, 'remove_medialibrary_tab'), 10, 1); //This is to remove the media library tab on LHS from the uploader popup
         }
     }
     
     function wp_photo_plugin_init(){//Lets run... Main plugin operation code goes here
-        // Set up localisation
-	// $this->load_plugin_textdomain();
-        require_once(WP_PHOTO_PATH . "/classes/wppg-photo-gallery-item-class.php");
-        require_once(WP_PHOTO_PATH . "/classes/wppg-photo-gallery-class.php");
-        
+        //Set up localisation.
+        $locale = apply_filters( 'plugin_locale', get_locale(), 'spgallery' );
+        load_textdomain( 'spgallery', WP_LANG_DIR . "/spgallery-$locale.mo" );
+	load_plugin_textdomain('spgallery', false, dirname(plugin_basename(__FILE__ )) . '/languages/');
+
         new WPPG_General_Init_Tasks();
         //Plugin into code goes here... actions, filters, shortcodes goes here
         //add_action(....);

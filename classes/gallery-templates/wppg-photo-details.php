@@ -12,6 +12,7 @@ class WPPG_Gallery_Photo_Details
 
     function render_photo_details()
     {
+        global $wp_photo_gallery;
         WP_Photo_Gallery_Utility::start_buffer();
     
         if(!isset($_GET['image_id']) && !isset($_GET['gallery_id'])){
@@ -26,9 +27,10 @@ class WPPG_Gallery_Photo_Details
         $url_param_encoded = '';
 
 
-        $c_g = get_post($gallery->page_id);
-        $current_gallery_page = $c_g->guid;
-
+        //$c_g = get_post($gallery->page_id);
+        //$current_gallery_page = $c_g->guid;
+        $current_gallery_page = get_permalink($gallery->page_id);
+        
         $wppgPhotoObj = new WPPGPhotoGalleryItem();
         $wppgPhotoObj->create_photo_item_by_id($image_id);
         $photo_name = $wppgPhotoObj->name;
@@ -43,15 +45,19 @@ class WPPG_Gallery_Photo_Details
 
         $source_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$gallery_id.'/';
 
-        $g_p = get_page_by_path('wppg_photogallery');
-        //$gallery_page = $g_p->guid;
-        $gallery_page = get_permalink($g_p->ID);
+        $gallery_home_page_id = $wp_photo_gallery->configs->get_value('wppg_gallery_home_page_id');
+        if(empty($gallery_home_page_id)){
+            $g_p = get_page_by_path('wppg_photogallery');
+            //$gallery_page = $g_p->guid;
+            $gallery_page = get_permalink($g_p->ID);
+        }else{
+            $gallery_page = get_permalink($gallery_home_page_id);
+        }
 
         $items_to_add = array();
         $display_msg = '';
 
 
-        //TODO
         $watermark_placement = $gallery->watermark_placement;
         if ($watermark_placement === NULL)
         {
@@ -134,10 +140,13 @@ class WPPG_Gallery_Photo_Details
             $x++;
         }
 
-        //$photo_details_page = get_page_by_title('Photo Details');
-        $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
-        $preview_page = get_permalink($photo_details_page->ID);
-
+        $details_page_id = $wp_photo_gallery->configs->get_value('wppg_photo_details_page_id');
+        if(empty($details_page_id)){
+            $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
+            $preview_page = get_permalink($photo_details_page->ID);
+        }else{
+            $preview_page = get_permalink($details_page_id);
+        }
 
         //Let's now determine the previous and next gallery image ids
         if ($img_index == 0)
@@ -185,7 +194,7 @@ class WPPG_Gallery_Photo_Details
 
         if($gallery_count > 0){
             //Photo navigation info eg, - "Displaying photo 1 of 20"
-            $photo_nav_info = sprintf( __('Displaying photo %s of %s', 'simple_photo_gallery'), $img_index+1, $gallery_count);
+            $photo_nav_info = sprintf( __('Displaying photo %s of %s', 'spgallery'), $img_index+1, $gallery_count);
         }
 
         ?>
@@ -195,7 +204,7 @@ class WPPG_Gallery_Photo_Details
             <img src="<?php echo $image_display_url;?>" alt="<?php echo $wppgPhotoObj->alt_text; ?>" class="wppg-image-details-watermarked-img" />
         </div>
         <div class="wppg-digital-details">
-        <div class="wppg-photo-description-text"><?php _e($wppgPhotoObj->description,'WPS');?></div>
+        <div class="wppg-photo-description-text"><?php _e($wppgPhotoObj->description,'spgallery');?></div>
         </div><!-- end of .wppg-digital-details -->
 
         <div class="wppg-css-clear"></div>
@@ -205,13 +214,13 @@ class WPPG_Gallery_Photo_Details
 
         <div class="wppg-digital-details-prev-next">
         <span class="wppg_photo_details_previous_photo_section wppg_photo_details_navigation_links">
-            <?php echo '<a href="'.$preview_url_prev.'" class="wppg_photo_details_previous_photo">&laquo; '.__("Previous Photo", "WPS").'</a>'; ?>
+            <?php echo '<a href="'.$preview_url_prev.'" class="wppg_photo_details_previous_photo">&laquo; '.__("Previous Photo", 'spgallery').'</a>'; ?>
         </span>
         <span class="wppg_photo_details_next_photo_section wppg_photo_details_navigation_links">
-            <?php echo '<a href="'.$preview_url_next.'" class="wppg_photo_details_next_photo">'.__("Next Photo", "WPS").' &raquo;</a>'; ?>
+            <?php echo '<a href="'.$preview_url_next.'" class="wppg_photo_details_next_photo">'.__("Next Photo", 'spgallery').' &raquo;</a>'; ?>
         </span>
         </div>
-        <span class="wppg_photo_details_bottom_section"><a href="<?php echo $current_gallery_page; ?>"><span class="wppg_photo_details_back_to_gallery"><?php _e("Back To Gallery Page", "WPS");?></span></a></span>
+        <span class="wppg_photo_details_bottom_section"><a href="<?php echo $current_gallery_page; ?>"><span class="wppg_photo_details_back_to_gallery"><?php _e("Back To Gallery Page", 'spgallery');?></span></a></span>
         </div><!-- end of .wppg-image-details -->
 <?php
         $output = WP_Photo_Gallery_Utility::end_buffer_and_collect();

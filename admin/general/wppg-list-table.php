@@ -175,7 +175,7 @@ class WP_Photo_Gallery_List_Table
 	 * @access public
 	 */
 	function no_items() {
-		_e( 'No items found.' );
+		_e( 'No items found.', 'spgallery');
 	}
 
 	/**
@@ -362,7 +362,7 @@ class WP_Photo_Gallery_List_Table
 		$m = isset( $_GET['m'] ) ? (int) $_GET['m'] : 0;
 ?>
 		<select name='m'>
-			<option<?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates' ); ?></option>
+			<option<?php selected( $m, 0 ); ?> value='0'><?php _e( 'Show all dates', 'spgallery'); ?></option>
 <?php
 		foreach ( $months as $arc_row ) {
 			if ( 0 == $arc_row->year )

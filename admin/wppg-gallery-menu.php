@@ -87,30 +87,30 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             }
         }
         ?>
-        <h2><?php _e('Gallery Management Menu', 'simple_photo_gallery')?></h2>
+        <h2><?php _e('Gallery Management Menu', 'spgallery')?></h2>
         <div class="postbox">
-        <h3><label for="title"><?php _e('Creating or Editing a Gallery', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('Creating or Editing a Gallery', 'spgallery'); ?></label></h3>
         <div class="inside">
         <div class="wppg_blue_box">
             <ul class="wppg_admin_ul_grp1">
-                <li><?php _e('To create a new gallery click the "Create New Gallery" button below.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('To edit an existing gallery please click the "Edit" link for the applicable gallery in the "Existing Galleries" table below.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('To create a new gallery click the "Create New Gallery" button below.', 'spgallery'); ?></li>
+                <li><?php _e('To edit an existing gallery please click the "Edit" link for the applicable gallery in the "Existing Galleries" table below.', 'spgallery'); ?></li>
             </ul>
         </div>
         </div></div>
         <div class="postbox">
-        <h3><label for="title"><?php _e( 'Create a Gallery' , 'simple_photo_gallery' ); ?></label></h3>
+        <h3><label for="title"><?php _e( 'Create a Gallery' , 'spgallery' ); ?></label></h3>
         <div class="inside">
             <table class="form-table">
                 <tr>
                     <td><input type="submit" name="create_gallery" value="Create New Gallery" class="button-primary" onclick="window.location ='?page=wppg_gallery&tab=tab2'" />
-                    <span class="description"><?php _e('Click this button if you wish to create a new gallery and upload photos', 'simple_photo_gallery'); ?></span></td>
+                    <span class="description"><?php _e('Click this button if you wish to create a new gallery and upload photos', 'spgallery'); ?></span></td>
                 </tr>
         </table>
         </div></div>
 
         <div class="postbox">
-        <h3><label for="title"><?php _e('Existing Galleries', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('Existing Galleries', 'spgallery'); ?></label></h3>
         <div class="inside">
             <?php 
             //Fetch, prepare, sort, and filter our data...
@@ -162,15 +162,15 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         if($gallery_page_id != 0){
             $gallery_page_url = get_permalink($gallery_page_id);
             $preview_gallery_page_msg .= '<div class="wppg_blue_box wppg_one_third_width">';
-            $preview_link = '<a href="'.$gallery_page_url.'" target="_blank">'.__('click here', 'WPS').'</a>';
-            $preview_gallery_page_msg .= '<p>'.sprintf( __('To preview your gallery page on the front end %s', 'WPS'), $preview_link).'</p>';
+            $preview_link = '<a href="'.$gallery_page_url.'" target="_blank">'.__('click here', 'spgallery').'</a>';
+            $preview_gallery_page_msg .= '<p>'.sprintf( __('To preview your gallery page on the front end %s', 'spgallery'), $preview_link).'</p>';
             $preview_gallery_page_msg .= '</div>';
         }
         
         if(isset($_REQUEST['action'])) //Do list table form row action tasks
         {
             if($_REQUEST['action'] == 'gallery_saved'){
-               $this->show_msg_updated(__('The Gallery was saved successfully.','simple_photo_gallery'));
+               $this->show_msg_updated(__('The Gallery was saved successfully.','spgallery'));
             }
 
             if($_REQUEST['action'] == 'remove_from_gallery'){ //"Remove From Gallery" link was clicked for a row in the list table
@@ -182,7 +182,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         {
             if($_GET['page'] == WP_PHOTO_GALLERY_MENU_SLUG && $_GET['deleted'] == 1){ 
                 echo '<div id="message" class="updated fade"><p><strong>';
-                _e('You have successfully deleted the selected gallery image(s) permanently!','simple_photo_gallery');
+                _e('You have successfully deleted the selected gallery image(s) permanently!','spgallery');
                 echo '</strong></p></div>';
             }
         }
@@ -199,7 +199,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             }
 
             if (empty($_POST['wppg_gallery_name'])) {
-                $errors .= '<p>'.__('Please enter a gallery name', 'simple_photo_gallery').'</p>'; //TODO
+                $errors .= '<p>'.__('Please enter a gallery name', 'spgallery').'</p>'; //TODO
             } else{
                 $gallery_name = wp_strip_all_tags(trim($_POST['wppg_gallery_name']));
             }
@@ -220,14 +220,14 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             $gallery_watermark_width = sanitize_text_field($_POST['wppg_watermark_width']);
             if(!is_numeric($gallery_watermark_width))
             {
-                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Photo Width field. It has been set to the default value.','simple_photo_gallery').'</p>';
+                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Photo Width field. It has been set to the default value.','spgallery').'</p>';
                 $gallery_watermark_width = '600';//Set it to the default value for this field
             }
 
             $gallery_watermark_font_size = sanitize_text_field($_POST['wppg_watermark_font_size']);
             if(!is_numeric($gallery_watermark_font_size))
             {
-                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Font Size field. It has been set to the default value.','simple_photo_gallery').'</p>';
+                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Font Size field. It has been set to the default value.','spgallery').'</p>';
                 $gallery_watermark_font_size = '35';//Set it to the default value for this field
             }
 
@@ -236,12 +236,12 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             $gallery_watermark_opacity = sanitize_text_field($_POST['wppg_watermark_opacity']);
             if(!is_numeric($gallery_watermark_opacity))
             {
-                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Opacity field. It has been set to the default value.','simple_photo_gallery').'</p>';
+                $errors .= '<p>'.__('You entered a non numeric value for the Watermark Opacity field. It has been set to the default value.','spgallery').'</p>';
                 $gallery_watermark_opacity = '35';//Set it to the default value for this field
             }
             else if($gallery_watermark_opacity > 100 || $gallery_watermark_opacity < 0)
             {
-                $errors .= '<p>'.__('The Watermark Opacity value must be between and including 0 and 100. It has been set to the default value.','simple_photo_gallery').'</p>';
+                $errors .= '<p>'.__('The Watermark Opacity value must be between and including 0 and 100. It has been set to the default value.','spgallery').'</p>';
                 $gallery_watermark_opacity = '35';//Set it to the default value for this field
             }
 
@@ -304,7 +304,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                     $gallery_id = $new_gallery_id;
                     if($gallery_id === false){
                         $gallery_id = NULL;
-                        $errors .= '<p>'.__('Gallery DB insert or update failed!', 'simple_photo_gallery').'</p>';
+                        $errors .= '<p>'.__('Gallery DB insert or update failed!', 'spgallery').'</p>';
                     }
                     
                     WPPGPhotoGallery::create_gallery_page($gallery_id); //Create gallery page with shortcode
@@ -345,141 +345,141 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         }
         
    ?>
-        <h2><?php _e('Create/Edit Gallery', 'simple_photo_gallery')?></h2>
+        <h2><?php _e('Create/Edit Gallery', 'spgallery')?></h2>
         <?php echo $preview_gallery_page_msg; ?>
 
         <div class="postbox wppg-gallery-settings-section">
-        <h3><label for="title"><?php _e('Gallery Settings', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('Gallery Settings', 'spgallery'); ?></label></h3>
         <div class="inside">
         <form action="" method="POST">
         <?php wp_nonce_field('wppg-save-gallery'); ?>
         <table class="form-table">
             <tr>
-                <th scope="row"><?php _e('Gallery Name', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Gallery Name', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_gallery_name" value="<?php echo $gallery_name; ?>" />
-                <span class="description"><?php _e('This is the name of your gallery', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('This is the name of your gallery', 'spgallery'); ?></span>
                 </td> 
             </tr>
             <tr>
-                <th scope="row"><?php _e('Gallery Thumbnail Template', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Gallery Thumbnail Template', 'spgallery');?>:</th>
                 <td>
                     <select id="wppg_gallery_thumb_template" name="wppg_gallery_thumb_template">
-                        <option value="0" <?php selected( $gallery_thumb_template, '0' ); ?>><?php _e( 'Template 1', 'simple_photo_gallery' ); ?></option>
-                        <option value="1" <?php selected( $gallery_thumb_template, '1' ); ?>><?php _e( 'Template 2', 'simple_photo_gallery' ); ?></option>
-                        <option value="2" <?php selected( $gallery_thumb_template, '2' ); ?>><?php _e( 'Template 3 (Masonry)', 'simple_photo_gallery' ); ?></option>
+                        <option value="0" <?php selected( $gallery_thumb_template, '0' ); ?>><?php _e( 'Template 1', 'spgallery' ); ?></option>
+                        <option value="1" <?php selected( $gallery_thumb_template, '1' ); ?>><?php _e( 'Template 2', 'spgallery' ); ?></option>
+                        <option value="2" <?php selected( $gallery_thumb_template, '2' ); ?>><?php _e( 'Template 3 (Masonry)', 'spgallery' ); ?></option>
                     </select>
-                <span class="description"><?php _e('Choose the template style for displaying your gallery thumbnails', 'simple_photo_gallery'); ?></span>
-                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>
+                <span class="description"><?php _e('Choose the template style for displaying your gallery thumbnails', 'spgallery'); ?></span>
+                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
                 <div class="wppg_more_info_body">
                         <?php 
-                        echo '<p class="description">'.__('Template 1: Will display your gallery thumbnails in a grid with thumbnail size 150x150.', 'simple_photo_gallery').'</p>';
-                        echo '<p class="description">'.__('Template 2: Will display your gallery thumbnails using true landscape/portrait proportions.', 'simple_photo_gallery').'</p>';
+                        echo '<p class="description">'.__('Template 1: Will display your gallery thumbnails in a grid with thumbnail size 150x150.', 'spgallery').'</p>';
+                        echo '<p class="description">'.__('Template 2: Will display your gallery thumbnails using true landscape/portrait proportions.', 'spgallery').'</p>';
                         ?>
                 </div>
 
                 </td>
             </tr>
             <tr>
-                <th scope="row"><?php _e('Sort Order Of Gallery Images', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Sort Order Of Gallery Images', 'spgallery');?>:</th>
                 <td>
                     <select id="wppg_gallery_sort_order" name="wppg_gallery_sort_order">
-                        <option value="0" <?php selected( $gallery_sort_order, '0' ); ?>><?php _e( 'By ID Ascending', 'simple_photo_gallery' ); ?></option>
-                        <option value="1" <?php selected( $gallery_sort_order, '1' ); ?>><?php _e( 'By ID Descending', 'simple_photo_gallery' ); ?></option>
-                        <option value="2" <?php selected( $gallery_sort_order, '2' ); ?>><?php _e( 'By Date Ascending', 'simple_photo_gallery' ); ?></option>
-                        <option value="3" <?php selected( $gallery_sort_order, '3' ); ?>><?php _e( 'By Date Descending', 'simple_photo_gallery' ); ?></option>
+                        <option value="0" <?php selected( $gallery_sort_order, '0' ); ?>><?php _e( 'By ID Ascending', 'spgallery' ); ?></option>
+                        <option value="1" <?php selected( $gallery_sort_order, '1' ); ?>><?php _e( 'By ID Descending', 'spgallery' ); ?></option>
+                        <option value="2" <?php selected( $gallery_sort_order, '2' ); ?>><?php _e( 'By Date Ascending', 'spgallery' ); ?></option>
+                        <option value="3" <?php selected( $gallery_sort_order, '3' ); ?>><?php _e( 'By Date Descending', 'spgallery' ); ?></option>
                     </select>
-                <span class="description"><?php _e('Choose the sort order of your gallery images when they are displayed on the front end of your site', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('Choose the sort order of your gallery images when they are displayed on the front end of your site', 'spgallery'); ?></span>
                 </td>
             </tr>
             <tr>
-                <th scope="row"><?php _e('Preview Photo via Page', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Preview Photo via Page', 'spgallery');?>:</th>
                 <td><input name="wppg_gallery_photo_preview" type="checkbox" <?php echo ($gallery_photo_preview == '1')? 'checked="checked"' : ''; ?>/>
-                <span class="description"><?php _e('When enabled this setting will show previews of your photos on a separate page. When disabled your photo previews will be via a lightbox. (Activating this option is recommended)', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('When enabled this setting will show previews of your photos on a separate page. When disabled your photo previews will be via a lightbox. (Activating this option is recommended)', 'spgallery'); ?></span>
                 </td> 
             </tr>
             <tr><td colspan="2"><div class="wppg_section_separator_1"></div></td></tr>
             <tr>
-                <th scope="row"><?php _e('Watermark Text', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Watermark Text', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_gallery_watermark" value="<?php echo $gallery_watermark; ?>" />
-                <span class="description"><?php _e('The text which you enter here will appear as a watermark on all photos in this gallery when they are being previewed by your visitors.', 'simple_photo_gallery'); ?></span>
-                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>
+                <span class="description"><?php _e('The text which you enter here will appear as a watermark on all photos in this gallery when they are being previewed by your visitors.', 'spgallery'); ?></span>
+                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
                 <div class="wppg_more_info_body">
                         <?php 
-                        echo '<p class="description">'.__('Leave this field blank if you wish to display the original photo to your customers when they are previewing this gallery.', 'simple_photo_gallery').'</p>';
+                        echo '<p class="description">'.__('Leave this field blank if you wish to display the original photo to your customers when they are previewing this gallery.', 'spgallery').'</p>';
                         ?>
                 </div>
                 </td> 
             </tr>
             <tr>
-                <th scope="row"><?php _e('Watermark Text Opacity', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Watermark Text Opacity', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_watermark_opacity" value="<?php echo $gallery_watermark_opacity; ?>" />
-                <span class="description"><?php _e('Enter a value between 0 and 100 where 0 is most transparent and 100 is least transparent.', 'simple_photo_gallery'); ?></span>
-                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>
+                <span class="description"><?php _e('Enter a value between 0 and 100 where 0 is most transparent and 100 is least transparent.', 'spgallery'); ?></span>
+                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
                 <div class="wppg_more_info_body">
                         <?php 
                         echo '<p class="description">'.__('This field enables you to set the transparency of your watermark text.
-                                                        A value of 0 will make your watermark text fully transparent and a value of 100 will make it non-transparent.', 'simple_photo_gallery').'</p>';
+                                                        A value of 0 will make your watermark text fully transparent and a value of 100 will make it non-transparent.', 'spgallery').'</p>';
                         ?>
                 </div>
                 </td> 
             </tr>
             <tr>
-                <th scope="row"><?php _e('Watermark Text Placement', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Watermark Text Placement', 'spgallery');?>:</th>
                 <td>
                     <select id="wppg_watermark_placement" name="wppg_watermark_placement">
-                        <option value="0" <?php selected( $gallery_watermark_placement, '0' ); ?>><?php _e( 'Centered', 'simple_photo_gallery' ); ?></option>
-                        <option value="1" <?php selected( $gallery_watermark_placement, '1' ); ?>><?php _e( 'Repeated Grid', 'simple_photo_gallery' ); ?></option>
+                        <option value="0" <?php selected( $gallery_watermark_placement, '0' ); ?>><?php _e( 'Centered', 'spgallery' ); ?></option>
+                        <option value="1" <?php selected( $gallery_watermark_placement, '1' ); ?>><?php _e( 'Repeated Grid', 'spgallery' ); ?></option>
                     </select>
-                <span class="description"><?php _e('Choose the placement location of your watermark text', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('Choose the placement location of your watermark text', 'spgallery'); ?></span>
                 </td>
             </tr>
             <tr>
-                <th scope="row"><?php _e('Watermarked Max Preview Dimension (px)', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Watermarked Max Preview Dimension (px)', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_watermark_width" value="<?php echo empty($gallery_watermark_width)?'600':$gallery_watermark_width; ?>" />
-                <span class="description"><?php _e('Enter a desired max dimension size for your watermarked preview', 'simple_photo_gallery'); ?></span>
-                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>
+                <span class="description"><?php _e('Enter a desired max dimension size for your watermarked preview', 'spgallery'); ?></span>
+                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
                 <div class="wppg_more_info_body">
                         <?php 
                         echo '<div class="description">'.__('<p>This field enables you to set the maximum desired width or height of the watermarked version of your photos in this gallery depending on whether the photo is a portrait or landscape.</p>
                                                         <p>For instance if your photo is a landscape style image then the value you enter here will represent the maximum desired width of the preview image.</p>
                                                         <p>Conversely, if your photo is a portrait style image then the value you enter here will represent the maximum desired height of the preview image.</p>
-                                                        <p>The plugin will automatically scale the watermarked photo\'s other dimension to the appropriate value based on the value entered in this field.<p>', 'simple_photo_gallery').'</div>';
+                                                        <p>The plugin will automatically scale the watermarked photo\'s other dimension to the appropriate value based on the value entered in this field.<p>', 'spgallery').'</div>';
                         ?>
                 </div>
                 </td> 
             </tr>
             <tr>
-                <th scope="row"><?php _e('Watermark Font Size (px)', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Watermark Font Size (px)', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_watermark_font_size" value="<?php echo empty($gallery_watermark_font_size)?'35':$gallery_watermark_font_size; ?>" />
-                <span class="description"><?php _e('Set the font size of the watermark text', 'simple_photo_gallery'); ?></span>
-                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'simple_photo_gallery'); ?></span></span>
+                <span class="description"><?php _e('Set the font size of the watermark text', 'spgallery'); ?></span>
+                <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
                 <div class="wppg_more_info_body">
                         <?php 
                         echo '<p class="description">'.__('This field enables you to set the font size of the watermark text for all photos in this gallery. 
-                                                        If left blank the plugin will default to 35px.', 'simple_photo_gallery').'</p>';
+                                                        If left blank the plugin will default to 35px.', 'spgallery').'</p>';
                         ?>
                 </div>
                 </td> 
             </tr>
             <tr><td colspan="2"><div class="wppg_section_separator_1"></div></td></tr>
             <tr>
-                <th scope="row"><?php _e('Use Pagination', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Use Pagination', 'spgallery');?>:</th>
                 <td>
                 <input id="wppg_gallery_pagination" name="wppg_gallery_pagination" type="checkbox" <?php echo ($gallery_pagination == '1')? 'checked="checked"' : ''; ?>>
-                <span class="description"><?php _e('Click this to enable pagination when displaying your gallery\'s photo thumbnails.', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('Click this to enable pagination when displaying your gallery\'s photo thumbnails.', 'spgallery'); ?></span>
                 </td> 
             </tr>
             <tr>
-                <th scope="row"><?php _e('Thumbs Per Page', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Thumbs Per Page', 'spgallery');?>:</th>
                 <td><input type="text" size="25" name="wppg_thumbs_per_page" value="<?php echo empty($gallery_thumbs_per_page)?'20':$gallery_thumbs_per_page; ?>" />
-                <span class="description"><?php _e('Set the number of thumbnails to display per page', 'simple_photo_gallery'); ?></span>
+                <span class="description"><?php _e('Set the number of thumbnails to display per page', 'spgallery'); ?></span>
                 </td> 
             </tr>
             <tr><td colspan="2"><div class="wppg_section_separator_1"></div></td></tr>
             <tr  class="uploader wppg_upload_button_row">
-                <th scope="row"><?php _e('Upload Images', 'simple_photo_gallery');?>:</th>
+                <th scope="row"><?php _e('Upload Images', 'spgallery');?>:</th>
                 <td><input type="submit" class="wppg_upload_image_button button" name="wppg_upload_image_button" value="Upload"/>
-                    <span class="description"><?php _e('To upload or select your images from the media library please click this button', 'simple_photo_gallery'); ?></span>
+                    <span class="description"><?php _e('To upload or select your images from the media library please click this button', 'spgallery'); ?></span>
                 </td>
             </tr>
 
@@ -488,7 +488,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
         </form>   
         </div></div>
         <div class="postbox">
-        <h3><label for="title"><?php _e('Gallery Images', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('Gallery Images', 'spgallery'); ?></label></h3>
         <div class="inside">
             <?php 
             //Fetch, prepare, sort, and filter our data...
@@ -515,31 +515,31 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
     function render_tab3() 
     {
         ?>
-        <h2><?php _e('Sell Your Digital and Physical Photos', 'simple_photo_gallery')?></h2>
+        <h2><?php _e('Sell Your Digital and Physical Photos', 'spgallery')?></h2>
         <div class="postbox">
-        <h3><label for="title"><?php _e('WP Photo Seller Plugin', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('WP Photo Seller Plugin', 'spgallery'); ?></label></h3>
         <div class="inside">
         <div class="wppg_blue_box">
             <div>
             <?php
-                $click_here_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('Click Here', 'simple_photo_gallery').'</a>';
-                $photoseller_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('WP Photo Seller', 'simple_photo_gallery').'</a>';
-                echo '<p>'.sprintf( __('If you are looking for a flexible and professional solution to sell your photos from your WordPress site then you should check out the <strong>%s</strong> plugin.', 'simple_photo_gallery'), $photoseller_link).'</p>';
+                $click_here_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('Click Here', 'spgallery').'</a>';
+                $photoseller_link = '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank">'.__('WP Photo Seller', 'spgallery').'</a>';
+                echo '<p>'.sprintf( __('If you are looking for a flexible and professional solution to sell your photos from your WordPress site then you should check out the <strong>%s</strong> plugin.', 'spgallery'), $photoseller_link).'</p>';
                 echo '<a href="http://www.tipsandtricks-hq.com/wordpress-photo-seller-plugin" target="_blank"><img src="'.WP_PHOTO_URL.'/images/photo-seller-banner-240-103.png'.'"></a>';
-                echo '<p>'.__('Some of the features and highlights of this plugin include:','simple_photo_gallery').'</p>';
+                echo '<p>'.__('Some of the features and highlights of this plugin include:','spgallery').'</p>';
             ?>
             </div>
             <ul class="wppg_admin_ul_grp1">
-                <li><?php _e('Ability to sell both digital and physical photos.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Sell digital photos with varying size and price options. Pugin will automatically create and deliver secure download link to your customers.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Secure digital delivery of photos - the plugin creates and automatically sends encrypted links to your customers.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Flexible photo variation options - make as many versions/types of the same (physical or digital) photo and sell for different prices.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Inventory control of your photo stocks - set inventory levels for specified photos. Very useful when selling physical prints.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Watermarking of photos when previewing.', 'simple_photo_gallery'); ?></li>
-                <li><?php _e('Zoom functionality to allow your customers to examine finer details of your photos without the need to display full resolution image.', 'simple_photo_gallery'); ?></li>
+                <li><?php _e('Ability to sell both digital and physical photos.', 'spgallery'); ?></li>
+                <li><?php _e('Sell digital photos with varying size and price options. Pugin will automatically create and deliver secure download link to your customers.', 'spgallery'); ?></li>
+                <li><?php _e('Secure digital delivery of photos - the plugin creates and automatically sends encrypted links to your customers.', 'spgallery'); ?></li>
+                <li><?php _e('Flexible photo variation options - make as many versions/types of the same (physical or digital) photo and sell for different prices.', 'spgallery'); ?></li>
+                <li><?php _e('Inventory control of your photo stocks - set inventory levels for specified photos. Very useful when selling physical prints.', 'spgallery'); ?></li>
+                <li><?php _e('Watermarking of photos when previewing.', 'spgallery'); ?></li>
+                <li><?php _e('Zoom functionality to allow your customers to examine finer details of your photos without the need to display full resolution image.', 'spgallery'); ?></li>
             </ul>
-            <p><?php _e('....and loads more!', 'simple_photo_gallery'); ?></p>
-            <p><?php echo sprintf( __('%s to see more features and a demo.', 'simple_photo_gallery'), $click_here_link); ?></p>
+            <p><?php _e('....and loads more!', 'spgallery'); ?></p>
+            <p><?php echo sprintf( __('%s to see more features and a demo.', 'spgallery'), $click_here_link); ?></p>
         </div>
         </div></div>
         <?php

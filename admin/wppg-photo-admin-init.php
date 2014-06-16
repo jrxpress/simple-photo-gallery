@@ -8,6 +8,7 @@ class WP_Photo_Gallery_Admin_Init
     var $main_menu_page;
     var $gallery_menu;
     var $settings_menu;
+    var $album_menu;
 
     function __construct()
     {
@@ -61,6 +62,7 @@ class WP_Photo_Gallery_Admin_Init
         $this->main_menu_page = add_menu_page(__('Photo Gallery', WP_PHOTO_TEXT_DOMAIN), __('Photo Gallery', WP_PHOTO_TEXT_DOMAIN), WP_PHOTO_MANAGEMENT_PERMISSION, WP_PHOTO_SETTINGS_MENU_SLUG , array(&$this, 'handle_settings_menu_rendering'), $menu_icon_url);
         add_submenu_page(WP_PHOTO_SETTINGS_MENU_SLUG, __('Settings', WP_PHOTO_TEXT_DOMAIN),  __('Settings', WP_PHOTO_TEXT_DOMAIN) , WP_PHOTO_MANAGEMENT_PERMISSION, WP_PHOTO_SETTINGS_MENU_SLUG, array(&$this, 'handle_settings_menu_rendering'));
         add_submenu_page(WP_PHOTO_SETTINGS_MENU_SLUG, __('Gallery', WP_PHOTO_TEXT_DOMAIN),  __('Gallery', WP_PHOTO_TEXT_DOMAIN) , WP_PHOTO_MANAGEMENT_PERMISSION, WP_PHOTO_GALLERY_MENU_SLUG, array(&$this, 'handle_gallery_menu_rendering'));
+        add_submenu_page(WP_PHOTO_SETTINGS_MENU_SLUG, __('Albums', WP_PHOTO_TEXT_DOMAIN),  __('Albums', WP_PHOTO_TEXT_DOMAIN) , WP_PHOTO_MANAGEMENT_PERMISSION, WP_PHOTO_ALBUM_MENU_SLUG, array(&$this, 'handle_album_menu_rendering'));
         do_action('wppg_admin_menu_created');
     }
     
@@ -76,4 +78,11 @@ class WP_Photo_Gallery_Admin_Init
         $this->settings_menu = new WP_Photo_Gallery_Settings_Menu();
         
     }
+
+    function handle_album_menu_rendering()
+    {
+        include_once('wppg-album-menu.php');
+        $this->album_menu = new WP_Photo_Gallery_Album_Menu();
+    }
+    
 }//End of class

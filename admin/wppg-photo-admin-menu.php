@@ -40,14 +40,14 @@ abstract class WP_Photo_Gallery_Admin_Menu
     function show_msg_settings_updated()
     {
         echo '<div id="message" class="updated fade"><p><strong>';
-        _e('Settings successfully updated.','simple_photo_gallery');
+        _e('Settings successfully updated.','spgallery');
         echo '</strong></p></div>';
     }
     
     static function show_msg_record_deleted_st()
     {
         echo '<div id="message" class="updated fade"><p><strong>';
-        _e('The selected record(s) deleted successfully!','simple_photo_gallery');
+        _e('The selected record(s) deleted successfully!','spgallery');
         echo '</strong></p></div>';
     }
     

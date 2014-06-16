@@ -73,7 +73,6 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
             $nonce=$_REQUEST['_wpnonce'];
             if (!wp_verify_nonce($nonce, 'wppg-save-general-gallery-settings-nonce'))
             {
-                //TODO
                 $wp_photo_gallery->debug_logger->log_debug("Nonce check failed on gallery general settings save!",4);
                 die("Nonce check failed on gallery settings save!");
             }
@@ -81,10 +80,17 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
 
             $gallery_selection_sort_order = $_POST['wppg_gallery_selection_sort_order'];
             $wp_photo_gallery->configs->set_value('wppg_gallery_home_sort_order', $gallery_selection_sort_order);
+
+            $gallery_home_page = $_POST['wppg_gallery_home_page'];
+            $wp_photo_gallery->configs->set_value('wppg_gallery_home_page_id', $gallery_home_page);
+
+            $album_home_page = $_POST['wppg_album_home_page'];
+            $wp_photo_gallery->configs->set_value('wppg_album_home_page_id', $album_home_page);
+
             $wp_photo_gallery->configs->save_config();
 
             echo '<div id="message" class="updated fade"><p><strong>';
-            _e('Gallery general settings were successfully saved.','WPS');
+            _e('Gallery general settings were successfully saved.','spgallery');
             echo '</strong></p></div>';
         }
         $gallery_selection_sort_order = $wp_photo_gallery->configs->get_value('wppg_gallery_home_sort_order');
@@ -94,46 +100,115 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
         <p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">Follow us</a> on Twitter, Google+ or via Email to stay up to date regarding new features and improvements to this plugin.</p>
         </div>
         
+        <form action="" method="POST">
+        <?php wp_nonce_field('wppg-save-general-gallery-settings-nonce'); ?>
         <div class="postbox">
-        <h3><label for="title"><?php _e('Getting Started', 'simple_photo_gallery'); ?></label></h3>
+        <h3><label for="title"><?php _e('Getting Started', 'spgallery'); ?></label></h3>
         <div class="inside">
             <div class="wppg_blue_box">
                 <?php
-                echo '<p>'.__('Using the <strong>Simple Photo Gallery</strong> Plugin is easy.', 'simple_photo_gallery').'</p>'; 
+                echo '<p>'.__('Using the <strong>Simple Photo Gallery</strong> Plugin is easy.', 'spgallery').'</p>'; 
                 $gallery_link = '<a href="admin.php?page='.WP_PHOTO_GALLERY_MENU_SLUG.'">gallery settings</a>';
-                $info_msg = '<p>'.sprintf( __('Just go to the %s and upload your photos and create your gallery.', 'simple_photo_gallery'), $gallery_link).'</p>';
+                $info_msg = '<p>'.sprintf( __('Just go to the %s and upload your photos and create your gallery.', 'spgallery'), $gallery_link).'</p>';
                 echo $info_msg;
-                echo '<p>'.__('After uploading your photos and saving your gallery the plugin will automatically create the required gallery pages on the front end of your site. It really is that simple!', 'simple_photo_gallery').'</p>'; 
+                echo '<p>'.__('After uploading your photos and saving your gallery the plugin will automatically create the required gallery pages on the front end of your site. It really is that simple!', 'spgallery').'</p>'; 
                 ?>
             </div>
         </div></div>
         
         <div class="postbox">
-            <form action="" method="POST">
-            <?php wp_nonce_field('wppg-save-general-gallery-settings-nonce'); ?>
-            <h3><label for="title"><?php _e('General Gallery Settings', 'WPS'); ?></label></h3>
+            <h3><label for="title"><?php _e('General Gallery Settings', 'spgallery'); ?></label></h3>
             <div class="inside">
                 <table class="form-table">
                 <tr>
-                    <th scope="row"><?php _e('Sort Order Of Gallery Selection', 'WPS');?>:</th>
+                    <th scope="row"><?php _e('Sort Order Of Gallery Selection', 'spgallery');?>:</th>
                     <td>
                         <select id="wppg_gallery_selection_sort_order" name="wppg_gallery_selection_sort_order">
-                            <option value="0" <?php selected( $gallery_selection_sort_order, '0' ); ?>><?php _e( 'By ID Ascending', 'WPS' ); ?></option>
-                            <option value="1" <?php selected( $gallery_selection_sort_order, '1' ); ?>><?php _e( 'By ID Descending', 'WPS' ); ?></option>
-                            <option value="2" <?php selected( $gallery_selection_sort_order, '2' ); ?>><?php _e( 'By Date Ascending', 'WPS' ); ?></option>
-                            <option value="3" <?php selected( $gallery_selection_sort_order, '3' ); ?>><?php _e( 'By Date Descending', 'WPS' ); ?></option>
-                            <option value="4" <?php selected( $gallery_selection_sort_order, '4' ); ?>><?php _e( 'By Name Ascending', 'WPS' ); ?></option>
-                            <option value="5" <?php selected( $gallery_selection_sort_order, '5' ); ?>><?php _e( 'By Name Descending', 'WPS' ); ?></option>
+                            <option value="0" <?php selected( $gallery_selection_sort_order, '0' ); ?>><?php _e( 'By ID Ascending', 'spgallery' ); ?></option>
+                            <option value="1" <?php selected( $gallery_selection_sort_order, '1' ); ?>><?php _e( 'By ID Descending', 'spgallery' ); ?></option>
+                            <option value="2" <?php selected( $gallery_selection_sort_order, '2' ); ?>><?php _e( 'By Date Ascending', 'spgallery' ); ?></option>
+                            <option value="3" <?php selected( $gallery_selection_sort_order, '3' ); ?>><?php _e( 'By Date Descending', 'spgallery' ); ?></option>
+                            <option value="4" <?php selected( $gallery_selection_sort_order, '4' ); ?>><?php _e( 'By Name Ascending', 'spgallery' ); ?></option>
+                            <option value="5" <?php selected( $gallery_selection_sort_order, '5' ); ?>><?php _e( 'By Name Descending', 'spgallery' ); ?></option>
                         </select>
-                    <span class="description"><?php _e('Choose the sort order of your gallery selection images when they are displayed on the gallery page of the front end of your site', 'WPS'); ?></span>
+                    <span class="description"><?php _e('Choose the sort order of your gallery selection images when they are displayed on the gallery page of the front end of your site', 'spgallery'); ?></span>
                     </td>
                 </tr>
                 </table>
-                <input type="submit" name="wppg_save_general_gallery_settings" value="Save Settings" class="button-primary" />
             </div>
-            </form>
         </div>
 
+        <div class="postbox">
+            <?php
+            $pages = get_pages();
+            ?>
+            <h3><label for="title"><?php _e('Page Settings', 'spgallery'); ?></label></h3>
+            <div class="inside">
+                <table class="form-table">
+                <tr>
+                    <th scope="row"><?php _e('Gallery Home Page', 'spgallery');?>:</th>
+                    <td>
+                        <select id="wppg_gallery_selection_sort_order" name="wppg_gallery_home_page">
+              <?php 
+                        foreach($pages as $page)
+                        {
+                            if($wp_photo_gallery->configs->get_value('wppg_gallery_home_page_id') == $page->ID)
+                            {
+                                echo '<option value="'.$page->ID.'" selected="selected">'.$page->post_title.'</option>';   
+                            }
+                            else
+                            {
+                                echo '<option value="'.$page->ID.'">'.$page->post_title.'</option>';
+                            } 
+                        }
+                ?>
+                        </select>
+                    <span class="description"><?php _e('Select the page that you want to set as the main gallery home page.', 'spgallery'); ?></span>
+                    <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
+                    <div class="wppg_more_info_body">
+                        <?php 
+                        echo '<p class="description">'.__('Note: This plugin will initially automatically create a default gallery home page with the correct shortcode for you.', 'spgallery').'</p>';
+                        echo '<p class="description">'.__('If you decide to change this page to another one then you will need to make sure that you also insert the following shortcode:', 'spgallery').'</p>';
+                        echo '<p><strong>[wppg_photo_gallery_home]</strong></p>';
+                        ?>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><?php _e('Album Home Page', 'spgallery');?>:</th>
+                    <td>
+                        <select id="wppg_gallery_selection_sort_order" name="wppg_album_home_page">
+              <?php 
+                        foreach($pages as $page)
+                        {
+                            if($wp_photo_gallery->configs->get_value('wppg_album_home_page_id') == $page->ID)
+                            {
+                                echo '<option value="'.$page->ID.'" selected="selected">'.$page->post_title.'</option>';   
+                            }
+                            else
+                            {
+                                echo '<option value="'.$page->ID.'">'.$page->post_title.'</option>';
+                            } 
+                        }
+                ?>
+                        </select>
+                    <span class="description"><?php _e('Select the page that you want to set as the main album home page.', 'spgallery'); ?></span>
+                    <span class="wppg_more_info_anchor"><span class="wppg_more_info_toggle_char">+</span><span class="wppg_more_info_toggle_text"><?php _e('More Info', 'spgallery'); ?></span></span>
+                    <div class="wppg_more_info_body">
+                        <?php 
+                        echo '<p class="description">'.__('Note: This plugin will initially automatically create a default album home page with the correct shortcode for you.', 'spgallery').'</p>';
+                        echo '<p class="description">'.__('If you decide to change this page to another one then you will need to make sure that you also insert the following shortcode:', 'spgallery').'</p>';
+                        echo '<p><strong>[wppg_photo_albums_home]</strong></p>';
+                        ?>
+                    </div>
+                    </td>
+                </tr>
+                </table>
+            </div>
+        </div>
+        <input type="submit" name="wppg_save_general_gallery_settings" value="Save Settings" class="button-primary" />
+        </form>
+        
         <?php
     }
     

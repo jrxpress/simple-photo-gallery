@@ -20,6 +20,7 @@ class WP_Photo_Gallery_Installer
         $gallery_tbl_name = WPPG_TBL_GALLERY;
 	$downloads_tbl_name = WPPG_TBL_DOWNLOADS;
         $photogallery_settings_tbl_name = WPPG_TBL_SETTINGS;
+        $album_tbl_name = WPPG_TBL_ALBUM;
         $global_meta_tbl_name = WPPG_TBL_GLOBAL_META_DATA;
         
 	$dl_tbl_sql = "CREATE TABLE " . $downloads_tbl_name . " (
@@ -59,6 +60,20 @@ class WP_Photo_Gallery_Installer
         PRIMARY KEY  (id)
         )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
         dbDelta($gallery_tbl_sql);
+        
+        $album_tbl_sql = "CREATE TABLE " . $album_tbl_name . " (
+        id int(11) NOT NULL AUTO_INCREMENT,
+        album_name varchar(200) NOT NULL,
+        created datetime NOT NULL,
+        updated datetime NOT NULL,
+        album_category int(11) NOT NULL,
+        thumbnail_url text NOT NULL,
+        page_id bigint(20) NOT NULL,
+        gallery_list text NOT NULL,
+        sort_order int(11) NOT NULL,
+        PRIMARY KEY  (id)
+        )ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+        dbDelta($album_tbl_sql);
         
         $gm_tbl_sql = "CREATE TABLE " . $global_meta_tbl_name . " (
         meta_id bigint(20) NOT NULL auto_increment,
@@ -110,9 +125,10 @@ class WP_Photo_Gallery_Installer
     
     static function create_photo_gallery_pages()
     {
+        global $wp_photo_gallery;
         // Create gallery home page
         $g_page = array(
-          'post_title' => __('Galleries', 'simple_photo_gallery'),
+          'post_title' => __('Galleries', 'spgallery'),
           'post_name' => 'wppg_photogallery',
           'post_content' => '[wppg_photo_gallery_home]',
           'post_parent' => 0,
@@ -131,9 +147,12 @@ class WP_Photo_Gallery_Installer
           $g_parentId = $g_p->ID;
         }
         
+        //Save the page ID in the settings
+        $wp_photo_gallery->configs->set_value('wppg_gallery_home_page_id',$g_parentId);
+                
         // Create the photo details page which will display an individual image and its informaton etc
         $details_page = array(
-          'post_title' => __('Photo Details', 'simple_photo_gallery'),
+          'post_title' => __('Photo Details', 'spgallery'),
           'post_name' => 'wppg_photo_details',
           'post_content' => '[wppg_photo_details]',
           'post_parent' => $g_parentId,
@@ -152,5 +171,9 @@ class WP_Photo_Gallery_Installer
         else {
           $d_parentId = $d_p->ID;
         }
+        
+        //Save the page ID in the settings
+        $wp_photo_gallery->configs->set_value('wppg_photo_details_page_id',$d_parentId); 
+        $wp_photo_gallery->configs->save_config();
     }
 }

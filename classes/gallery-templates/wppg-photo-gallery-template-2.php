@@ -8,6 +8,8 @@ class WPPG_Gallery_Template_2
     
     function render_gallery($gallery_id)
     {
+        global $wp_photo_gallery;
+        
         $pagination = false; //Initialize
         $gallery = new WPPGPhotoGallery($gallery_id);
         $display_photo_details_page = $gallery->display_image_on_page;
@@ -56,8 +58,16 @@ class WPPG_Gallery_Template_2
 
             if ($display_photo_details_page == 1)
             {
-                $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
-                $preview_page = get_permalink($photo_details_page->ID);
+                $details_page_id = $wp_photo_gallery->configs->get_value('wppg_photo_details_page_id');
+                if(empty($details_page_id)){
+                    $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
+                    if($photo_details_page == NULL){
+                        $wp_photo_gallery->debug_logger->log_debug('Gallery template 2: get_page_by_path returned NULL!',4);
+                    }
+                    $preview_page = $photo_details_page->guid;
+                }else{
+                    $preview_page = get_permalink($details_page_id);
+                }
 
                 //Check if this gallery is password protected
                 if(!empty($gallery->password)){
@@ -68,7 +78,7 @@ class WPPG_Gallery_Template_2
                     $query_params = array('gallery_id'=>$gallery_id,'image_id'=>$image_id);
                 }
                     $preview_url = add_query_arg($query_params, $preview_page);
-                    $button_html = '<span class="wpsg-t2-buy-link"><a href="'.$preview_url.'">'.__("View", "wpphotogallery").'</a></span>';
+                    $button_html = '<span class="wpsg-t2-buy-link"><a href="'.$preview_url.'">'.__("View", "spgallery").'</a></span>';
             }
             else
             {
@@ -119,7 +129,7 @@ class WPPG_Gallery_Template_2
                     //Don't create a watermark URL if the watermark field was empty in the gallery settings. Display original image instead
                     $preview_url = $wppgPhotoObj->image_file_url;
                 }
-                $button_html =  '<input type="button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" class="wppg_popup wps-gallery-button wpsg-t2-buy-input" value="'.__("View", "wpphotogallery").'">';
+                $button_html =  '<input type="button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" class="wppg_popup wppg-gallery-button wpsg-t2-buy-input" value="'.__("View", "spgallery").'">';
             }
 
     ?>

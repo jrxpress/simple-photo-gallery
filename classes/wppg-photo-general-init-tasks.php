@@ -21,12 +21,28 @@ class WPPG_General_Init_Tasks
         add_shortcode('wppg_photo_gallery_home', array(&$this, 'wppg_photo_gallery_home_sc_handler'));
         add_shortcode('wppg_photo_details', array(&$this, 'wppg_photo_details_sc_handler'));
         add_shortcode('wppg_photo_slider', array(&$this, 'wppg_photo_slider_sc_handler'));
+
+        add_shortcode('wppg_photo_album', array(&$this, 'wppg_photo_album_sc_handler'));
+        add_shortcode('wppg_photo_albums_home', array(&$this, 'wppg_photo_albums_home_sc_handler'));
+        
     }
     
     function load_scripts_and_styles()
     {
         if (is_admin()){
-            //Load any admin side scripts here            
+            //Load any admin side scripts here
+            //Album page
+            if(strpos($_SERVER['QUERY_STRING'], 'page=wppg') !== false) {
+                if ($_GET['page'] == 'wppg_album'){
+                    //media upload stuff
+                    wp_enqueue_script('media-upload');
+                    wp_enqueue_script('thickbox');
+                    wp_register_script('wppg-media-upload', WP_PHOTO_URL.'/js/wppg_album_thumb_uploader.js', array('jquery','media-upload','thickbox'));
+                    wp_enqueue_style( 'dialogStylesheet', includes_url().'css/jquery-ui-dialog.css' );
+                    wp_enqueue_script('wppg-media-upload');	    	
+                    wp_enqueue_style('thickbox'); //style sheet for thickbox
+                }
+            }   
         }else{
             //Load front end side scripts here
             wp_enqueue_style('wppg-photo-css', WP_PHOTO_URL . '/css/wppg-photo.css', null, WP_PHOTO_VERSION, 'all');
@@ -52,7 +68,7 @@ class WPPG_General_Init_Tasks
         {
             //No result found
             $wp_photo_gallery->debug_logger->log_debug("wppg_photo_gallery_sc_handler: Could not find gallery with ID: ".$gallery_id,4);
-            echo '<div class="wppg_red_box_front_end">'.__("Error: No gallery found with the following ID: ","WPPG").$gallery_id.'</div>';
+            echo '<div class="wppg_red_box_front_end">'.__("Error: No gallery found with the following ID: ","spgallery").$gallery_id.'</div>';
         }
 
         isset($gallery_object->gallery_thumb_template)? $template = $gallery_object->gallery_thumb_template: $template = '0';
@@ -97,6 +113,58 @@ class WPPG_General_Init_Tasks
         return $output;
     }
     
+    function wppg_photo_albums_home_sc_handler($attrs)
+    {
+        require_once 'album-templates/wppg-photo-album-home.php';
+        $album_home = new WPPG_Album_Home();
+        $output = $album_home->render_album_home();
+        return $output;
+ 
+    }
+    
+    function wppg_photo_album_sc_handler($attrs)
+    {
+        global $wpdb, $wp_photo_gallery;
+        $album_id = $attrs['id'];
+        $album_table = WPPG_TBL_ALBUM;
+        //Let's get the gallery associated with this ID
+        $album_object = $wpdb->get_row("SELECT * FROM $album_table WHERE id = '".$album_id."'");
+        if ($album_object === NULL)
+        {
+            //No result found
+            $wp_photo_gallery->debug_logger->log_debug("wppg_photo_album_sc_handler: Could not find album with ID: ".$album_id,4);
+            echo '<div class="wppg_red_box_front_end">'.__("Error: No album found with the following ID: ","spgallery").$album_id.'</div>';
+        }
+
+/* 
+ * TODO - we'll add templates later    
+     isset($album_object->album_thumb_template)? $template = $album_object->album_thumb_template: $template = '0';
+
+     switch($template){
+         case '0':
+             require_once 'album-templates/wppg-photo-album-template-1.php';
+             $template1 = new WPPG_Gallery_Template_1();
+             $output = $template1->render_album($album_id);
+             break;
+         case '1': 
+             require_once 'album-templates/wppg-photo-album-template-2.php';
+             $template2 = new WPPG_Gallery_Template_2();
+             $output = $template2->render_album($album_id);
+             break;
+         default:
+             require_once 'album-templates/wppg-photo-album-template-1.php';
+             $template1 = new WPPG_Gallery_Template_1();
+             $output = $template1->render_album($album_id);
+    }
+ * 
+ */
+        require_once 'album-templates/wppg-photo-album-template-1.php';
+        $template1 = new WPPG_Album_Template_1();
+        $output = $template1->render_album($album_id);
+        return $output;
+    }
+    
+    
     function wppg_photo_slider_sc_handler($attrs)
     {
         extract(shortcode_atts(array(
@@ -104,7 +172,7 @@ class WPPG_General_Init_Tasks
         ), $attrs));
 
         if($id == 'not specified'){
-            echo '<div class="wppg_red_box_front_end""><strong>'.__('Simple Photo Gallery: Please specify a gallery ID or multiple IDs separated by commas','simple_photo_gallery').'</strong></div>';
+            echo '<div class="wppg_red_box_front_end""><strong>'.__('Simple Photo Gallery: Please specify a gallery ID or multiple IDs separated by commas','spgallery').'</strong></div>';
             return;
         }
         $this->add_slider_script = true; //For detecting if this shortcode is being used (before a page loads)

@@ -99,6 +99,14 @@ class WP_Photo_Gallery_Utility
         $output = ob_get_contents();
         ob_end_clean();
         return $output;
-    }    
+    }
+    
+    static function get_attachment_id_from_url($image_url)
+    {
+        global $wpdb;
+	$prefix = $wpdb->prefix;
+	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url )); 
+        return $attachment[0]; 
+    }
     
 }

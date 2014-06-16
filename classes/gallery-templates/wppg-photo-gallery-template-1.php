@@ -8,6 +8,7 @@ class WPPG_Gallery_Template_1
 
     function render_gallery($gallery_id)
     {
+        global $wp_photo_gallery;
         $pagination = false; //Initialize
         $gallery = new WPPGPhotoGallery($gallery_id);
         $display_photo_details_page = $gallery->display_image_on_page;
@@ -43,9 +44,16 @@ class WPPG_Gallery_Template_1
 
             if ($display_photo_details_page == 1)
             {
-                //$photo_details_page = get_page_by_title('Photo Details');
-                $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
-                $preview_page = $photo_details_page->guid;
+                $details_page_id = $wp_photo_gallery->configs->get_value('wppg_photo_details_page_id');
+                if(empty($details_page_id)){
+                    $photo_details_page = get_page_by_path('wppg_photogallery/wppg_photo_details');
+                    if($photo_details_page == NULL){
+                        $wp_photo_gallery->debug_logger->log_debug('Gallery template 1: get_page_by_path returned NULL!',4);
+                    }
+                    $preview_page = $photo_details_page->guid;
+                }else{
+                    $preview_page = get_permalink($details_page_id);
+                }
                 //Check if this gallery is password protected
                 if(!empty($gallery->password)){
                     //This gallery is password protected - so let's add an encoded string
@@ -55,7 +63,7 @@ class WPPG_Gallery_Template_1
                     $query_params = array('gallery_id'=>$gallery_id,'image_id'=>$image_id);
                 }
                 $preview_url = add_query_arg($query_params, $preview_page);
-                $button_html = '<span class="wppg_popup_view_details_section"><a href="'.$preview_url.'"><span class="wppg-button">'.__("View Photo", "wpphotogallery").'</span></a></span>';
+                $button_html = '<span class="wppg_popup_view_details_section"><a href="'.$preview_url.'"><span class="wppg-button">'.__("View Photo", "spgallery").'</span></a></span>';
             }
             else
             {
@@ -93,8 +101,8 @@ class WPPG_Gallery_Template_1
                     //Don't create a watermark URL if the watermark field was empty in the gallery settings. Display original image instead
                     $preview_url = $wppgPhotoObj->image_file_url;
                 }
-                //$button_html = '<input type="button" value="'.__("View Image", "wpphotogallery").'" class="gallerybutton wppg-template1-view-button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" />';
-                $button_html = '<a href="'.$preview_url.'" class="wppg_popup wppg-template1-lb-view" id="viewPhotoDetails_'.$wppgPhotoObj->id.'">'.__("View Image", "wpphotogallery").'</a>';
+                //$button_html = '<input type="button" value="'.__("View Image", "spgallery").'" class="gallerybutton wppg-template1-view-button" id="viewPhotoDetails_'.$wppgPhotoObj->id.'" />';
+                $button_html = '<a href="'.$preview_url.'" class="wppg_popup wppg-template1-lb-view" id="viewPhotoDetails_'.$wppgPhotoObj->id.'">'.__("View Image", "spgallery").'</a>';
             }
 
     ?>

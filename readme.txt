@@ -3,8 +3,8 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
 Donate link: http://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry,
 Requires at least: 3.5
-Tested up to: 3.9
-Stable tag: 1.6
+Tested up to: 3.9.1
+Stable tag: 1.7
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -45,6 +45,9 @@ Below is a list of the features offered in this photo gallery plugin:
 
 = Gallery Slider =
 * Ability to create image slider using your gallery images.
+
+= Photo Albums = 
+* Ability to create photo albums with your galleries. If you have lots of galleries then you can categorize them by creating albums.
 
 = Plugin Support =
 * If you have a question or problem with the Simple Photo Gallery plugin, post it on the support section and we will try to help you.
@@ -90,10 +93,19 @@ Yes.
 = Can I create masonry style photo gallery with this plugin? =
 Yes.
 
+= Can I create photo albums with this plugin? =
+Yes.
+
 == Upgrade Notice ==
 None
 
 == Changelog ==
+
+= 1.7 =
+- Fixed up language translation related code.
+- Added debug logs for cases when photo details page cannot be found.
+- New feature: Added ability to create albums
+- Removed the hardcoded page slug constraints by tweaking code and adding settings for the home gallery/album pages
 
 = 1.6 =
 - Added a preview link in the gallery settings page which shows the front end page for the applicable gallery
