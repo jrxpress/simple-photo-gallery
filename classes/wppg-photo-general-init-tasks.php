@@ -53,7 +53,7 @@ class WPPG_General_Init_Tasks
             wp_enqueue_script('jquery-lightbox', WP_PHOTO_URL . '/js/jquery-lightbox/js/jquery.lightbox-0.5.js', array('jquery'), WP_PHOTO_VERSION);
             
             wp_register_script('wppg-flex-slider', WP_PHOTO_URL . '/js/flexslider/jquery.flexslider-min.js', array('jquery'), WP_PHOTO_VERSION, true); //Load this script only for pages with the slider shortcode
-            wp_register_script('wppg-slider-related', WP_PHOTO_URL . '/js/wppg-slider-related.js', array('jquery'), WP_PHOTO_VERSION, true); //Load this script only for pages with the slider shortcode
+            //wp_register_script('wppg-slider-related', WP_PHOTO_URL . '/js/wppg-slider-related.js', array('jquery'), WP_PHOTO_VERSION, true); //Load this script only for pages with the slider shortcode
         }
     }
     
@@ -169,6 +169,7 @@ class WPPG_General_Init_Tasks
     {
         extract(shortcode_atts(array(
             'id' => 'not specified',
+            'show_carousel' => '',
         ), $attrs));
 
         if($id == 'not specified'){
@@ -183,10 +184,10 @@ class WPPG_General_Init_Tasks
         if(strrpos($gallery_ids, ',')){
             //Multiple galleries specified
             $id_array = explode(',', $gallery_ids);
-            $slider_output = WP_Photo_Gallery_Shortcode_Utility::wppg_slider_output_sc($id_array);
+            $slider_output = WP_Photo_Gallery_Shortcode_Utility::wppg_slider_output_sc($id_array, $attrs);
         }else{
             //Single gallery specified
-            $slider_output = WP_Photo_Gallery_Shortcode_Utility::wppg_slider_output_sc($gallery_ids);
+            $slider_output = WP_Photo_Gallery_Shortcode_Utility::wppg_slider_output_sc($gallery_ids, $attrs);
         }
         return $slider_output;
     }
