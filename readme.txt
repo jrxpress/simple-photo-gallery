@@ -1,10 +1,10 @@
 === Simple Photo Gallery ===
 Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
-Donate link: http://www.tipsandtricks-hq.com/development-center
+Donate link: https://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry, carousel,
 Requires at least: 3.5
-Tested up to: 3.9.1
-Stable tag: 1.7.2
+Tested up to: 3.9.2
+Stable tag: 1.7.3
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -45,7 +45,7 @@ Below is a list of the features offered in this photo gallery plugin:
 
 = Gallery Slider =
 * Ability to create image slider using your gallery images.
-* Option to show a image carousel below the slider.
+* Option to show an image carousel below the slider. A row of image thumbnails below the slider.
 
 = Photo Albums = 
 * Ability to create photo albums with your galleries. If you have lots of galleries then you can categorize them by creating albums.
@@ -101,6 +101,10 @@ Yes.
 None
 
 == Changelog ==
+
+= 1.7.3 =
+- Added Serbo-Croatian language translation to the plguin. The translation was submitted by Borisa Djuraskovic (http://www.webhostinghub.com/).
+- Added a new feature in the advanced settings tab to allow user roles such ad "Editor", "Author" or "Contributor" to be able to view the admin dashboard of this plugin.
 
 = 1.7.2 =
 - Added dutch language translation to the plguin. The translation was submitted by Art Nagy.

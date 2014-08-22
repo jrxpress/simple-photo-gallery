@@ -3,7 +3,7 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.7.2';
+    var $version = '1.7.3';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -37,13 +37,21 @@ class WP_Photo_Gallery{
     }
     
     function define_constants(){
+        
         define('WP_PHOTO_VERSION', $this->version);
         define('WP_PHOTO_URL', $this->plugin_url());
         define('WP_PHOTO_PATH', $this->plugin_path());
         define('WP_PHOTO_DB_VERSION', $this->db_version);
         define('WP_PHOTO_TEXT_DOMAIN', 'spgallery');
   
-        define('WP_PHOTO_MANAGEMENT_PERMISSION', 'add_users');
+        $selected_permission = $this->configs->get_value('wppg_management_permission');
+        if(empty($selected_permission)){
+            define('WP_PHOTO_MANAGEMENT_PERMISSION', 'manage_options');
+        }
+        else{
+            define('WP_PHOTO_MANAGEMENT_PERMISSION', $selected_permission);
+        }
+
         define('WP_PHOTO_MENU_SLUG_PREFIX', 'wppg');
         define('WP_PHOTO_MAIN_MENU_SLUG', 'wppg_main');
         define('WP_PHOTO_SETTINGS_MENU_SLUG', 'wppg_settings');

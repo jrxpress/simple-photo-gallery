@@ -7,10 +7,12 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
     /* Specify all the tabs of this menu in the following array */
     var $menu_tabs = array(
         'tab1' => 'General Settings', 
+        'tab2' => 'Advanced Settings', 
         );
 
     var $menu_tabs_handler = array(
         'tab1' => 'render_tab1', 
+        'tab2' => 'render_tab2', 
         );
 
     function __construct() 
@@ -95,9 +97,10 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
         }
         $gallery_selection_sort_order = $wp_photo_gallery->configs->get_value('wppg_gallery_home_sort_order');
         ?>
-        <div class="aio_grey_box">
+        <div class="wppg_grey_box">
  	<p>For information, updates and documentation, please visit the <a href="http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin" target="_blank">Simple Photo Gallery Plugin</a> Page.</p>
-        <p><a href="http://www.tipsandtricks-hq.com/development-center" target="_blank">Follow us</a> on Twitter, Google+ or via Email to stay up to date regarding new features and improvements to this plugin.</p>
+        <p><a href="https://www.tipsandtricks-hq.com/development-center" target="_blank">Follow us</a> on Twitter, Google+ or via Email to stay up to date regarding new features and improvements to this plugin.</p>
+        <p>If you like the plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/simple-photo-gallery" target="_blank">give us a good rating</a>.</p>
         </div>
         
         <form action="" method="POST">
@@ -209,6 +212,55 @@ class WP_Photo_Gallery_Settings_Menu extends WP_Photo_Gallery_Admin_Menu
         <input type="submit" name="wppg_save_general_gallery_settings" value="Save Settings" class="button-primary" />
         </form>
         
+        <?php
+    }
+    
+    function render_tab2()
+    {
+        global $wp_photo_gallery;
+        //Do form submission tasks
+        if(isset($_POST['wppg_management_permission_update']))
+        {
+            $wp_photo_gallery->configs->set_value('wppg_management_permission', $_POST['wppg_management_permission']);
+            
+            $wp_photo_gallery->configs->save_config();
+            echo '<div id="message" class="updated fade"><p><strong>';
+            _e('Admin dashboard access permission settings were successfully saved.','spgallery');
+            echo '</strong></p></div>';
+        }
+        ?>
+        
+        <div class="wppg_grey_box">
+ 	<p>For information, updates and documentation, please visit the <a href="http://photography-solutions.tipsandtricks-hq.com/simple-wordpress-photo-gallery-plugin" target="_blank">Simple Photo Gallery Plugin</a> Page.</p>
+        <p><a href="https://www.tipsandtricks-hq.com/development-center" target="_blank">Follow us</a> on Twitter, Google+ or via Email to stay up to date regarding new features and improvements to this plugin.</p>
+        <p>If you like the plugin, please <a href="http://wordpress.org/support/view/plugin-reviews/simple-photo-gallery" target="_blank">give us a good rating</a>.</p>
+        </div>
+        
+        
+        <div class="postbox">
+        <h3><label for="title">Admin Dashboard Access Permission</label></h3>
+        <div class="inside">
+
+            <p>
+                Simple Photo Gallery plugin's admin dashboard is accessible to admin users only (just like any other plugin).
+                You can allow users with other WP role to access the plugin's admin dashboard by selecting a value below.
+                <br /><br />
+                <strong>If don't know what this is for then leave it as it is.</strong>
+            </p>
+            <?php
+            $selected_permission = $wp_photo_gallery->configs->get_value('wppg_management_permission');
+            ?>
+            <form method="post" action="">
+                <select name="wppg_management_permission">
+                    <option <?php echo ($selected_permission == 'manage_options') ? "selected='selected'" : ""; ?> value="manage_options">Admin</option>
+                    <option <?php echo ($selected_permission == 'edit_pages') ? "selected='selected'" : ""; ?> value="edit_pages">Editor</option>
+                    <option <?php echo ($selected_permission == 'edit_published_posts') ? "selected='selected'" : ""; ?> value="edit_published_posts">Author</option>
+                    <option <?php echo ($selected_permission == 'edit_posts') ? "selected='selected'" : ""; ?> value="edit_posts">Contributor</option>
+                </select>
+                <input type="submit" name="wppg_management_permission_update" class="button" value="Save Permission &raquo" />
+            </form>
+
+        </div></div>     
         <?php
     }
     
