@@ -115,7 +115,6 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             <?php 
             //Fetch, prepare, sort, and filter our data...
             $gallery_list->prepare_items();
-            //echo "put table of locked entries here"; 
             ?>
             <form id="tables-filter" method="get" onSubmit="return confirm('Are you sure you want to perform this bulk operation on the selected entries?');">
             <!-- For plugins, we also need to ensure that the form posts back to our current page -->
@@ -201,7 +200,7 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
             if (empty($_POST['wppg_gallery_name'])) {
                 $errors .= '<p>'.__('Please enter a gallery name', 'spgallery').'</p>'; //TODO
             } else{
-                $gallery_name = wp_strip_all_tags(trim($_POST['wppg_gallery_name']));
+                $gallery_name = stripslashes(trim($_POST['wppg_gallery_name']));
             }
 
             //If images have been added to the gallery
@@ -312,26 +311,47 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                 
                 //Now let's process the selected gallery photos
                 if (isset($_POST['wppg_img_count']) && $num_gallery_images != NULL){
-                    $g->process_gallery_images($num_gallery_images, $gallery_id);
+                    $existing_gallery = empty($existing_gallery_id)?false:true;
+                    $g->process_gallery_images($num_gallery_images, $existing_gallery, $gallery_id);
                 }
                 
                 //Now let's rename the temp dir if applicable
-                if(!isset($_GET['wppg_gallery_id']) && ($gallery_id != NULL) && isset($_POST['wppg_img_count'])){
+                if(!isset($_GET['wppg_gallery_id']) && ($gallery_id != NULL)){
                     $upload_dir = wp_upload_dir();
-                    $old_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.WPPG_UPLOAD_TEMP_DIRNAME;
-                    $new_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$gallery_id;
-
-                    //Let's first create an empty index.html file
-                    $index_file = $old_dir.'/index.html';
-                    $handle = fopen($index_file, 'w') or die('Cannot open file:  '.$index_file);
-                    fclose($handle);
-
-                    if(!rename($old_dir, $new_dir)){
-                        $wp_photo_gallery->debug_logger->log_debug("Upload directory rename failed upon creation of new gallery with ID: ".$gallery_id,4);
+                    if(isset($_POST['wppg_img_count'])){
+                        //case where photos were uploaded
+                        $old_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.WPPG_UPLOAD_TEMP_DIRNAME;
+                        $new_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$gallery_id;
+                        if(file_exists($old_dir)){
+                            //Let's first create an empty index.html file
+                            $index_file = $old_dir.'/index.html';
+                            $handle = fopen($index_file, 'w') or die('Cannot open file:  '.$index_file);
+                            fclose($handle);
+                            if(!rename($old_dir, $new_dir)){
+                                $wp_photo_gallery->debug_logger->log_debug("Upload directory rename failed upon creation of new gallery with ID: ".$gallery_id,4);
+                            }
+                        }elseif(file_exists($new_dir)){
+                            $index_file = $new_dir.'/index.html';
+                            $handle = fopen($index_file, 'w') or die('Cannot open file:  '.$index_file);
+                            fclose($handle);
+                        }
+                        //We must also modify any meta_data for each image which had reference to the temp dir
+                        WPPGPhotoGallery::replace_image_meta_info_temp_dir($gallery_id);
+                    }else{
+                        //Handles case where a new gallery was created but no images uploaded - so simply create the gallery directory
+                        $gallery_dir = $upload_dir['basedir'] . '/'.WPPG_UPLOAD_SUB_DIRNAME . '/' . $gallery_id;           
+                        if(!is_dir($gallery_dir)) {
+                            $mkdir_res = mkdir($gallery_dir , 0755, true);
+                            if($mkdir_res === false){
+                                $wp_photo_gallery->debug_logger->log_debug("ERROR: Could not create gallery upload directory for gallery ID ".$gallery_id,4);
+                            }else{
+                                //Let's also create an empty index.html file in this folder
+                                $index_file = $gallery_dir.'/index.html';
+                                $handle = fopen($index_file, 'w'); //or die('Cannot open file:  '.$index_file);
+                                fclose($handle);
+                            }
+                        }
                     }
-                    
-                    //We must also modify any meta_data for each image which had reference to the temp dir
-                    WPPGPhotoGallery::replace_image_meta_info_temp_dir($gallery_id);    
                 }
                 if (strlen($errors)> 0){
                     //echo '<div id="message" class="error">' . $errors . '</div>';

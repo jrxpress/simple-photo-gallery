@@ -87,10 +87,15 @@ class WPPGPhotoGallery
         return $image_ids;
     }
     
-    function process_gallery_images($num_gallery_images, $existing_gallery_id)
+    function process_gallery_images($num_gallery_images, $existing_gallery, $gallery_id)
     {
         //let's loop through the POST data and get the image details and insert into DB
         $j=0;
+        if(!$existing_gallery){
+            $existing_gallery_id = '';//case for new gallery
+        }else{
+            $existing_gallery_id = $gallery_id;
+        }
         while ($j<$num_gallery_images)
         {
             //Get the names of the hidden input elements
@@ -102,7 +107,7 @@ class WPPGPhotoGallery
             $image_meta = wp_get_attachment_metadata($current_image_id);
             $img_file = $image_meta['file'];
             
-            $pos = strpos($img_file, 'spgallery');
+            $pos = strpos($img_file, WPPG_UPLOAD_SUB_DIRNAME);
             
             if ($pos !== false) {
                 $new_img_upload = true;
@@ -118,13 +123,13 @@ class WPPGPhotoGallery
                     $new_image_id = WPPGPhotoGallery::create_new_post_attachment_and_meta_data($current_image_id, $existing_gallery_id);
                     if($new_image_id !== false){
                         //Let's add our special meta key for this image
-                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
+                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
                     }                        
                 }
             }
             else if($new_img_upload)
             {
-                update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
+                update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
             }
             else
             {
@@ -136,11 +141,11 @@ class WPPGPhotoGallery
                     if($new_image_id === true){
                         //For case where media library image is already part of this gallery's directory
                         //Let's add our special meta key for this image
-                        update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
+                        update_post_meta($current_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
                     }else if($new_image_id !== false){
                         //Case where a new image post was created after copying original image
                         //Let's add our special meta key for this image
-                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $existing_gallery_id);
+                        update_post_meta($new_image_id, WPPG_ATTACHMENT_META_TAG, $gallery_id);
                     }                        
                 }
             }
@@ -235,23 +240,35 @@ class WPPGPhotoGallery
         $image_ids = WPPGPhotoGallery::get_gallery_image_ids($gallery_id);
         //Now cycle through each image_id (ie, post_id)
         foreach ($image_ids as $post_id){
+            //Get _wp_attachment_metadata
           $wp_attachment_meta_data = get_post_meta($post_id, '_wp_attachment_metadata');
-          $old_string = $wp_attachment_meta_data[0]['file'];
-          $new_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_string, 1);
-          $wp_attachment_meta_data[0]['file'] = $new_string;
+          $old_meta_data_string = $wp_attachment_meta_data[0]['file'];
+          $new_meta_data_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_meta_data_string, 1);
+          
+          //Get _wp_attached_file
+          $wp_attached_file = get_post_meta($post_id, '_wp_attached_file');
+          $old_post_meta_string = $wp_attached_file[0];
+          $new_post_meta_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_post_meta_string, 1);
+          
+          //Get post
+          $post_info = get_post($post_id, ARRAY_A);
+          $old_post_guid_string = $post_info['guid'];
+          $new_post_guid_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_post_guid_string, 1);
+          //Update _wp_attachment_metadata
+          $wp_attachment_meta_data[0]['file'] = $new_meta_data_string;
           update_post_meta($post_id, '_wp_attachment_metadata', $wp_attachment_meta_data[0]);
 
-          $wp_attached_file = get_post_meta($post_id, '_wp_attached_file');
-          $old_string = $wp_attached_file[0];
-          $new_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_string, 1);
-          $wp_attached_file[0] = $new_string;
+          //Update _wp_attached_file
+          $wp_attached_file[0] = $new_post_meta_string;
           update_post_meta($post_id, '_wp_attached_file', $wp_attached_file[0]);
+            
+          //Update post with new guid
+          $post_info['guid'] = $new_post_guid_string;
 
-          $post_info = get_post($post_id, ARRAY_A);
-          $old_string = $post_info['guid'];
-          $new_string = preg_replace('/'.WPPG_UPLOAD_TEMP_DIRNAME.'/', $gallery_id, $old_string, 1);
-          $post_info['guid'] = $new_string;
-          wp_update_post($post_info);
+          $res = wp_update_post($post_info, true);
+          if(is_wp_error($res)){
+              //TODO
+          }
         }
     }
     
@@ -304,7 +321,7 @@ class WPPGPhotoGallery
         foreach ($image_files_to_copy as $image_file){
             $result = copy($image_file['orig_file_path'], $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename']);
             if ($result === FALSE){
-                $wp_photo_gallery->debug_logger->log_debug("Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename'],4);
+                $wp_photo_gallery->debug_logger->log_debug("copy_existing_images_to_gallery_dir() - Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename'],4);
                 return FALSE;
             }
         }
@@ -364,11 +381,10 @@ class WPPGPhotoGallery
                 WP_Photo_Gallery_Utility::create_dir($dirpath);
             }
         } 
-        
         foreach ($image_files_to_copy as $image_file){
             $result = copy($image_file['orig_file_path'], $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename']);
             if ($result === FALSE){
-                $wp_photo_gallery->debug_logger->log_debug("Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/wp_photo_seller/'.$dest_dir.'/'.$image_file['filename'],4);
+                $wp_photo_gallery->debug_logger->log_debug("copy_media_library_images_to_gallery_dir() - Image copy failed from " . $image_file['orig_file_path'] ." to ". $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file['filename'],4);
                 return FALSE;
             }
         }
@@ -384,6 +400,7 @@ class WPPGPhotoGallery
      */
     static function create_new_post_attachment_and_meta_data($image_id, $existing_gallery_id)
     {
+        global $wp_photo_gallery;
         if ($existing_gallery_id == ''){
             $dest_dir = WPPG_UPLOAD_TEMP_DIRNAME;
         }else{
@@ -407,7 +424,7 @@ class WPPGPhotoGallery
         $new_post_array['guid'] = $upload_dir['baseurl'] . '/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$dest_dir.'/'.$image_file_name; //Set the image url to reflect the correct path
         $new_image_id = wp_insert_post($new_post_array, true);
         if($new_image_id == 0){
-           WPSCommon::log('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] New post insert failed: " . print_r($new_image_id, true));
+            $wp_photo_gallery->debug_logger->log_debug("New post insert failed for image ID " . $image_id,4);
            return false;
        }
        

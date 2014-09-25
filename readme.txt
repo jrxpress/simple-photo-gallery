@@ -4,7 +4,7 @@ Donate link: https://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry, carousel,
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -101,6 +101,10 @@ Yes.
 None
 
 == Changelog ==
+
+= 1.7.4 =
+- Added some improveents to the code related to saving of new gallery.
+- Added stripslashes to the gallery names.
 
 = 1.7.3 =
 - Added Serbo-Croatian language translation to the plguin. The translation was submitted by Borisa Djuraskovic (http://www.webhostinghub.com/).
