@@ -3,7 +3,7 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.7.4';
+    var $version = '1.7.5';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;

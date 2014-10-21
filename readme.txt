@@ -4,7 +4,7 @@ Donate link: https://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry, carousel,
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 License: GPLv3
 
 A simple, user-friendly photo gallery plugin for your WordPress site.
@@ -102,8 +102,12 @@ None
 
 == Changelog ==
 
+= 1.7.5 =
+- Increased the z-index value for the lightbox gallery image popups.
+- Added code to ensure that a temp upload directory situation doesn't occur when creating a new gallery and uploading images at the same time. 
+
 = 1.7.4 =
-- Added some improveents to the code related to saving of new gallery.
+- Added some improvements to the code related to saving of new gallery.
 - Added stripslashes to the gallery names.
 
 = 1.7.3 =

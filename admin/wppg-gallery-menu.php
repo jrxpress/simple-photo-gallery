@@ -134,7 +134,16 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
 
         if(isset($_GET['wppg_gallery_id'])){
             $gallery_id = strip_tags($_GET['wppg_gallery_id']);
+        }elseif(!isset($_POST['wppg_save_gallery'])){
+            //check if there is a hanging temp upload directory and if so delete it
+            $upload_dir = wp_upload_dir();
+            $tmp_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.WPPG_UPLOAD_TEMP_DIRNAME;
+            if (file_exists($tmp_dir)){WP_Photo_Gallery_Utility::deleteFolder($tmp_dir);}
+
+            //Delete attachment posts and related post meta data of photos which were in the tmp upload dir
+            WPPGPhotoGallery::deleteUnsavedTmpImages();
         }
+        
         //Initialize some variables
         $new_gallery_id = '';
         $existing_gallery_id = '';

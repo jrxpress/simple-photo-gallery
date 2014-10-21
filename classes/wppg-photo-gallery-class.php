@@ -768,4 +768,27 @@ class WPPGPhotoGallery
         }
         
     }
+    
+    /* Deletes any image posts and post meta data from the media library for photos which were never saved to a gallery but were left hanging in temp upload directory
+     * Will search the postmeta table for any rows which contain the WPPG_UPLOAD_TEMP_DIRNAME
+     * It will then delete all posts and associated meta data for these results
+     */
+    static function deleteUnsavedTmpImages()
+    {
+        global $wpdb, $wp_photo_gallery;
+        $postmeta_table = $wpdb->prefix . 'postmeta';
+        $search_string = WPPG_UPLOAD_TEMP_DIRNAME;
+        $sql = $wpdb->prepare("SELECT post_id FROM $postmeta_table WHERE INSTR(LCASE(meta_value), '%s')>0", $search_string);
+        
+        $results = $wpdb->get_results($sql, ARRAY_A);
+        if(!empty($results)){
+            foreach($results as $row){
+                $res = wp_delete_attachment($row['post_id'], true);
+                if ($res == NULL) {
+                    $wp_photo_gallery->debug_logger->log_debug("WPPGPhotoGallery::deleteUnsavedTmpImages: Deletion of attachment with ID ".$row['post_id']." failed!",4);
+                }
+            }
+        }
+    }
+    
 }
