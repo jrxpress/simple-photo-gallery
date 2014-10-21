@@ -119,7 +119,7 @@ None
 - Added a new feature in the photo gallery slider to show the image thumbnails below the slider. Allows you to create a Galleriffic style gallery.
 
 = 1.7.1 =
-- Minor readme file formatting fix.
+- Minor readme.txt file formatting fix.
 
 = 1.7 =
 - Fixed up language translation related code.
