@@ -457,7 +457,11 @@ class WP_Photo_Gallery_Gallery_Menu extends WP_Photo_Gallery_Admin_Menu
                 <td>
                     <select id="wppg_watermark_placement" name="wppg_watermark_placement">
                         <option value="0" <?php selected( $gallery_watermark_placement, '0' ); ?>><?php _e( 'Centered', 'spgallery' ); ?></option>
-                        <option value="1" <?php selected( $gallery_watermark_placement, '1' ); ?>><?php _e( 'Repeated Grid', 'spgallery' ); ?></option>
+                        <option value="5" <?php selected( $gallery_watermark_placement, '5' ); ?>><?php _e( 'Repeated Grid', 'spgallery' ); ?></option>
+                        <option value="1" <?php selected( $gallery_watermark_placement, '1' ); ?>><?php _e( 'Top Left', 'spgallery' ); ?></option>
+                        <option value="2" <?php selected( $gallery_watermark_placement, '2' ); ?>><?php _e( 'Top Right', 'spgallery' ); ?></option>
+                        <option value="3" <?php selected( $gallery_watermark_placement, '3' ); ?>><?php _e( 'Bottom Right', 'spgallery' ); ?></option>
+                        <option value="4" <?php selected( $gallery_watermark_placement, '4' ); ?>><?php _e( 'Bottom Left', 'spgallery' ); ?></option>
                     </select>
                 <span class="description"><?php _e('Choose the placement location of your watermark text', 'spgallery'); ?></span>
                 </td>

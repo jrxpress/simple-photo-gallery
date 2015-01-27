@@ -1,6 +1,6 @@
 jQuery(document).ready(function($) {
     //For gallery template 1
-    $('#wppg-gallery-display a.wppg_popup').lightBox({
+    $('#wppg-gallery-display .wppg-gallery-template1-thumb a.wppg_popup').lightBox({
         imageLoading:WPPG_LIGHTBOX_JS.imgLoading,
         imageBtnPrev:WPPG_LIGHTBOX_JS.imgbtnPrev,
         imageBtnNext:WPPG_LIGHTBOX_JS.imgbtnNext,

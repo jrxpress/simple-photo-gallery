@@ -193,7 +193,7 @@ class WPPGPhotoGallery
             $gallery_images_array[] = $image_info;
         }
         
-        return $gallery_images_array;
+        return WPPGPhotoGallery::sortGalleryItems($gallery_images_array, $sort_order);
     }
     
     //Returns an array of gallery images and details according to the chosen sort order
@@ -523,12 +523,35 @@ class WPPGPhotoGallery
         $watermarkfile_width=imageSX($image_p);
         $watermarkfile_height=imageSY($image_p);
 
-        $dest_y = ($sourcefile_height / 2) - ($watermarkfile_height / 2);
-        $dest_x = ($sourcefile_width / 2) - ($watermarkfile_width / 2);
-
-        if($watermark_placement == '0')
+        if($watermark_placement == '0'){
+            //Centre
+            $dest_x = ($sourcefile_width / 2) - ($watermarkfile_width / 2);
+            $dest_y = ($sourcefile_height / 2) - ($watermarkfile_height / 2);
+        }elseif($watermark_placement == '1'){
+            //Top Left
+            $dest_x = 5;
+            $dest_y = 5;
+        }elseif($watermark_placement == '2'){
+            //Top Right
+            $dest_x = $sourcefile_width - $watermarkfile_width - 5;
+            $dest_y = 5;
+        }elseif($watermark_placement == '3'){
+            //Bottom Right
+            $dest_x = $sourcefile_width - $watermarkfile_width - 5;
+            $dest_y = $sourcefile_height - $watermarkfile_height - 5;
+        }elseif($watermark_placement == '4'){
+            //Bottom Left
+            $dest_x = 5;
+            $dest_y = $sourcefile_height - ($watermarkfile_height) - 5;
+        }else{
+            //default - Centre
+            $dest_x = ($sourcefile_width / 2) - ($watermarkfile_width / 2);
+            $dest_y = ($sourcefile_height / 2) - ($watermarkfile_height / 2);
+        }
+        
+        if($watermark_placement != '5')
         {
-            //Display watermark text in centre of image
+            //Place the image according to the co-ordinates calculated from above
             imagecopy($image, $image_p, $dest_x, $dest_y, 0, 0,$watermarkfile_width, $watermarkfile_height);
         }
         else 

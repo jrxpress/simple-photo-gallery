@@ -147,7 +147,7 @@ window.onload = function(){
 var container = document.querySelector('#wppg-gallery-template-3');
 var msnry = new Masonry( container, {
   // options
-  columnWidth: 50,
+  columnWidth: '.wpsg-t3-item',
   itemSelector: '.wpsg-t3-item'
 });
 }
