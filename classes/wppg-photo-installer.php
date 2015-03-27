@@ -140,40 +140,46 @@ class WP_Photo_Gallery_Installer
 
 
         $g_p = get_page_by_path('wppg_photogallery');
-        if(!$g_p) {
-          $g_pageId = wp_insert_post($g_page);
-          $g_parentId = $g_pageId;
-        }else {
-          $g_parentId = $g_p->ID;
+        if ($g_p == NULL) {
+            $g_pageId = wp_insert_post($g_page);
+            $g_parentId = $g_pageId;
+        } else {
+            $g_parentId = $g_p->ID;
+            if ($g_p->post_status == 'trash') { //For cases where page may be in trash
+                wp_update_post(array('ID' => $g_p->ID, 'post_status' => 'publish'));
+            }
         }
-        
+
         //Save the page ID in the settings
-        $wp_photo_gallery->configs->set_value('wppg_gallery_home_page_id',$g_parentId);
-                
+        $wp_photo_gallery->configs->set_value('wppg_gallery_home_page_id', $g_parentId);
+
         // Create the photo details page which will display an individual image and its informaton etc
         $details_page = array(
-          'post_title' => __('Photo Details', 'spgallery'),
-          'post_name' => 'wppg_photo_details',
-          'post_content' => '[wppg_photo_details]',
-          'post_parent' => $g_parentId,
-          'post_status' => 'publish',
-          'post_type' => 'page',
-          'comment_status' => 'closed',
-          'ping_status' => 'closed'
+            'post_title' => __('Photo Details', 'spgallery'),
+            'post_name' => 'wppg_photo_details',
+            'post_content' => '[wppg_photo_details]',
+            'post_parent' => $g_parentId,
+            'post_status' => 'publish',
+            'post_type' => 'page',
+            'comment_status' => 'closed',
+            'ping_status' => 'closed'
         );
 
         // Create the top level photo details page
         $d_p = get_page_by_path('wppg_photogallery/wppg_photo_details');
-        if(!$d_p) {
-          $d_pageId = wp_insert_post($details_page);
-          $d_parentId = $d_pageId;
+        if ($d_p == NULL) {
+            $d_pageId = wp_insert_post($details_page);
+            $d_parentId = $d_pageId;
+        } else {
+            $d_parentId = $d_p->ID;
+            if ($d_p->post_status == 'trash') { //For cases where page may be in trash
+                wp_update_post(array('ID' => $d_p->ID, 'post_status' => 'publish'));
+            }
         }
-        else {
-          $d_parentId = $d_p->ID;
-        }
-        
+
         //Save the page ID in the settings
-        $wp_photo_gallery->configs->set_value('wppg_photo_details_page_id',$d_parentId); 
+        $wp_photo_gallery->configs->set_value('wppg_photo_details_page_id', $d_parentId);
         $wp_photo_gallery->configs->save_config();
     }
+
 }

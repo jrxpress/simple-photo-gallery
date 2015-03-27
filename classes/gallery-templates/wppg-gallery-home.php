@@ -72,8 +72,8 @@ class WPPG_Gallery_Home
                 <div class="wppg_gallery_item_container">
                     <div class="wppg_gallery_item_top">
                         <div class="wppg_gallery_item_thumbnail">
-                        <a href='<?php echo $page_link ?>'>
-                                <img class="wppg_gallery_item_thumb" src='<?php echo $thumb_image_url ?>' alt='<?php echo $gallery_name; ?>' title="<?php echo $gallery_name; ?>" />
+                        <a href='<?php echo $page_link; ?>'>
+                                <img class="wppg_gallery_item_thumb" src='<?php echo $thumb_image_url; ?>' alt='<?php echo $gallery_name; ?>' title="<?php echo $gallery_name; ?>" />
                         </a>
                         </div>
                     </div>

@@ -15,7 +15,7 @@ class WPPG_Gallery_Template_1
         $gallery_items = WPPGPhotoGallery::getGalleryItems($gallery_id);
         WP_Photo_Gallery_Utility::start_buffer();
 ?>
-        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-1.css?ver='.WP_PHOTO_VERSION ?>" />
+        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/gallery-templates/css/wppg-photo-gallery-template-1.css?ver='.WP_PHOTO_VERSION; ?>" />
         <div id="wppg-gallery-display">
 <?php
         //Add Pagination if applicable
@@ -109,8 +109,8 @@ class WPPG_Gallery_Template_1
     <div class="item">
         <div class="wppg-gallery-template1-top">
             <div class="wppg-gallery-template1-thumb">
-                <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
-                    <img alt="<?php echo $wppgPhotoObj->alt_text ?>" src="<?php echo $path ?>">
+                <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name; ?>" href="<?php echo $preview_url; ?>">
+                    <img alt="<?php echo $wppgPhotoObj->alt_text; ?>" src="<?php echo $path; ?>">
                 </a>
             </div>
         </div>

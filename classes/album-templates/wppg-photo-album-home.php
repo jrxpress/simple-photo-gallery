@@ -77,8 +77,8 @@ class WPPG_Album_Home
                 <div class="wppg_album_item_container">
                     <div class="wppg_album_item_top">
                         <div class="wppg_album_item_thumbnail">
-                        <a href='<?php echo $page_link ?>'>
-                                <img class="wppg_album_item_thumb" src='<?php echo $thumb_image_url ?>' alt='<?php echo $album_name; ?>' title="<?php echo $album_name; ?>" />
+                        <a href='<?php echo $page_link; ?>'>
+                                <img class="wppg_album_item_thumb" src='<?php echo $thumb_image_url; ?>' alt='<?php echo $album_name; ?>' title="<?php echo $album_name; ?>" />
                         </a>
                         </div>
                     </div>

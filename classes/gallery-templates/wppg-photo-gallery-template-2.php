@@ -136,8 +136,8 @@ class WPPG_Gallery_Template_2
 	<div class="wpsg-t2-item">
             <div class="wpsg-t2-top" style="height:<?php echo $h; ?>px; width:<?php echo $w; ?>px;">
                 <div class="wpsg-t2-thumb" style="height:<?php echo $h; ?>px; width:<?php echo $w; ?>px;">
-                    <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
-                        <img alt="<?php echo $wppgPhotoObj->alt_text ?>" src="<?php echo $thumbnail_src ?>">
+                    <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name; ?>" href="<?php echo $preview_url; ?>">
+                        <img alt="<?php echo $wppgPhotoObj->alt_text; ?>" src="<?php echo $thumbnail_src; ?>">
                     </a>                    
 <!--                    <div class="wpsg-t2-meta">
                         <div class="wpsg-t2-buy-button">

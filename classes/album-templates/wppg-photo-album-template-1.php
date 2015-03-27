@@ -20,7 +20,7 @@ class WPPG_Album_Template_1
         
         WP_Photo_Gallery_Utility::start_buffer();
 ?>
-        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/album-templates/css/wppg-photo-album-template-1.css?ver='.WP_PHOTO_VERSION ?>" />
+        <link type="text/css" rel="stylesheet" href="<?php echo WP_PHOTO_URL.'/classes/album-templates/css/wppg-photo-album-template-1.css?ver='.WP_PHOTO_VERSION; ?>" />
         
 <?php
         $gallery_array_list = maybe_unserialize($album_object->gallery_list); //Get the galleries associated with this album
@@ -83,8 +83,8 @@ class WPPG_Album_Template_1
                     <div class="wppg_album_item_container">
                         <div class="wppg_album_item_top">
                             <div class="wppg_album_item_thumbnail">
-                            <a href='<?php echo $page_link ?>'>
-                                    <img class="wppg_album_item_thumbnail" src='<?php echo $thumb_image_url ?>' alt='<?php echo $gallery_name; ?>' title="<?php echo $gallery_name; ?>" />
+                            <a href='<?php echo $page_link; ?>'>
+                                    <img class="wppg_album_item_thumbnail" src='<?php echo $thumb_image_url; ?>' alt='<?php echo $gallery_name; ?>' title="<?php echo $gallery_name; ?>" />
                             </a>
                             </div>
                         </div>

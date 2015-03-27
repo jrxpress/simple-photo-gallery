@@ -120,8 +120,8 @@ class WPPG_Gallery_Template_3
 
     ?>
 	<div class="wpsg-t3-item">
-            <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name ?>" href="<?php echo $preview_url ?>">
-                <img alt="<?php echo $wppgPhotoObj->alt_text ?>" src="<?php echo $image_file_url ?>">
+            <a class="wppg_popup" title="<?php echo $wppgPhotoObj->name; ?>" href="<?php echo $preview_url; ?>">
+                <img alt="<?php echo $wppgPhotoObj->alt_text; ?>" src="<?php echo $image_file_url; ?>">
             </a>
 	</div><!-- end of .wpsg-t3-item -->
     <?php 
