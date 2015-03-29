@@ -102,6 +102,9 @@ None
 
 == Changelog ==
 
+= 1.7.8 =
+- Fixed a bug which occurs on the photo details page when someone is not using a watermark.
+
 = 1.7.7 =
 - Added more robustness to the default page creation process at activation time.
 

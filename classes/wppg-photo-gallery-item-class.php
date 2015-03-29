@@ -43,7 +43,13 @@ class WPPGPhotoGalleryItem {
         $upload_dir = wp_upload_dir();
         $this->source_dir = $upload_dir['basedir'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$this->gallery_id.'/';
         $this->source_dir_url = $upload_dir['baseurl'].'/'.WPPG_UPLOAD_SUB_DIRNAME.'/'.$this->gallery_id.'/';
-        $this->image_file_url = $image_post->guid;
+        $image_attributes = wp_get_attachment_image_src( $image_id, 'full' ); // get full sized image - returns an array
+        if( $image_attributes ) {
+            $this->image_file_url = $image_attributes[0]; //get the image URL
+        }else{
+            $this->image_file_url = $image_post->guid; //NOTE: use guid as absolute last resort because it is not an accurate indication of image URL
+        }
+        
         $this->thumb_url = wp_get_attachment_thumb_url($image_id);
         
         $this->image_file_name = esc_html(wp_basename($this->image_file_url));
