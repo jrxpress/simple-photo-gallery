@@ -3,7 +3,7 @@ Contributors: Tips and Tricks HQ, wpsolutions, Peter Petreski
 Donate link: https://www.tipsandtricks-hq.com/development-center
 Tags: gallery, gallery shortcode, photo gallery, simple gallery, wordpress photo gallery, watermark, watermarking, image, images, media, photo, photo albums, album, photos, picture, thumbnails, slider, gallery slider, best gallery plugin, masonry, carousel,
 Requires at least: 3.5
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: 1.7.7
 License: GPLv3
 
