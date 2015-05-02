@@ -220,6 +220,7 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
         $album_galleries = array();
         $album_sort_order = 0;
         $album_category = 0; //not being used - set to zero for now
+        $album_page_id = 0;
         
         $galleries = $wpdb->get_results("SELECT * FROM $gallery_table_name");
         $number_of_gallery_items = $wpdb->num_rows;
@@ -234,6 +235,7 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
                 $album_galleries = maybe_unserialize($result['gallery_list']);
                 $album_sort_order = $result['sort_order'];
                 $album_thumb_url = $result['thumbnail_url'];
+                $album_page_id = $result['page_id'];
             }
         }
         
@@ -272,10 +274,11 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
 
             //Let's take care of the gallery checkboxes submissions
             $post_array = $_POST;
+            $album_galleries = array();//Reset the album gallery array and re-populate it.
             foreach ($post_array as $key=>$value)
             {
                 if(strpos($key, 'wppg_gallery_id_') !== false){
-                    $album_galleries[] = $value;
+                    $album_galleries[] = $value;                    
                 }
             }
 
@@ -335,6 +338,18 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
         
    ?>
         <h2><?php _e('Create/Edit Album', 'spgallery')?></h2>
+        <?php
+        if($album_page_id != 0){
+            //Show a preview link for this album page
+            $album_page_url = get_permalink($album_page_id);
+            $preview_album_page_msg .= '<div class="wppg_blue_box wppg_one_third_width">';
+            $preview_link = '<a href="'.$album_page_url.'" target="_blank">'.__('click here', 'spgallery').'</a>';
+            $preview_album_page_msg .= '<p>'.sprintf( __('To preview this album page on the front end %s', 'spgallery'), $preview_link).'</p>';
+            $preview_album_page_msg .= '</div>';
+            echo $preview_album_page_msg;
+        }
+        ?>
+        
         <div class="postbox wppg-album-settings-section">
         <h3><label for="title"><?php _e('Album Settings', 'spgallery'); ?></label></h3>
         <div class="inside">
