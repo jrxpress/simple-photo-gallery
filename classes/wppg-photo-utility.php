@@ -139,8 +139,21 @@ class WP_Photo_Gallery_Utility
     {
         global $wpdb;
 	$prefix = $wpdb->prefix;
-	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid='%s';", $image_url )); 
+	$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM " . $prefix . "posts" . " WHERE guid=%s;", $image_url )); 
         return $attachment[0]; 
+    }
+    
+    /*
+     * Checks if the string exists in the array key value of the provided array. If it doesn't exist, it returns the first key element from the valid values.
+     */
+    static function sanitize_value_by_array($to_check, $valid_values)
+    {
+        $keys = array_keys($valid_values);
+        $keys = array_map('strtolower', $keys);
+        if ( in_array( $to_check, $keys ) ) {
+            return $to_check;
+        }
+        return reset($keys);//Return he first element from the valid values
     }
     
 }

@@ -28,7 +28,7 @@ class WPPGPhotoGallery
     function get_gallery_settings($id)
     {
         global $wpdb;
-        $sql = 'SELECT * from ' . WPPG_TBL_GALLERY . " WHERE id='$id'";
+        $sql = $wpdb->prepare("SELECT * from " . WPPG_TBL_GALLERY . " WHERE id = %d", $id);
         $data = $wpdb->get_row($sql, ARRAY_A);
         if($data) {
             $this->id = $data['id'];
@@ -83,7 +83,7 @@ class WPPGPhotoGallery
     
     static function get_gallery_image_ids($gallery_id){
         global $wpdb;
-        $image_ids = $wpdb->get_col( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wppg_gallery_id' AND meta_value = $gallery_id" );
+        $image_ids = $wpdb->get_col( $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = %s AND meta_value = %d", '_wppg_gallery_id', $gallery_id) );
         return $image_ids;
     }
     

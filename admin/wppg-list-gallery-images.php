@@ -210,11 +210,15 @@ class WPPG_List_Gallery_Images extends WP_Photo_Gallery_List_Table {
 
 	/* -- Ordering parameters -- */
 	    //Parameters that are going to be used to order the result
-	$orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'id';
-	$order = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'DESC';
+        isset($_GET["orderby"]) ? $orderby = strip_tags($_GET["orderby"]): $orderby = '';
+        isset($_GET["order"]) ? $order = strip_tags($_GET["order"]): $order = '';
+	$orderby = !empty($_GET["orderby"]) ? esc_sql($_GET["orderby"]) : 'id';
+	$order = !empty($_GET["order"]) ? esc_sql($_GET["order"]) : 'DESC';
+
+        $orderby = WP_Photo_Gallery_Utility::sanitize_value_by_array($orderby, $sortable);
+        $order = WP_Photo_Gallery_Utility::sanitize_value_by_array($order, array('DESC' => '1', 'ASC' => '1'));
 
         $data = $this->fetch_gallery_images($gallery_id, $orderby, $order);
-	//$data = $wpdb->get_results("SELECT * FROM $gallery_items_table WHERE gallery_id=$gallery_id ORDER BY $orderby $order", ARRAY_A);
         $current_page = $this->get_pagenum();
         $total_items = count($data);
         $data = array_slice($data,(($current_page-1)*$per_page),$per_page);

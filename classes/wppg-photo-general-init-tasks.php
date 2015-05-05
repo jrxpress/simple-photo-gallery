@@ -63,7 +63,7 @@ class WPPG_General_Init_Tasks
         $gallery_id = $attrs['id'];
         $gallery_table = WPPG_TBL_GALLERY;
         //Let's get the gallery associated with this ID
-        $gallery_object = $wpdb->get_row("SELECT * FROM $gallery_table WHERE id = '".$gallery_id."'");
+        $gallery_object = $wpdb->get_row($wpdb->prepare("SELECT * FROM $gallery_table WHERE id = %d", $gallery_id));
         if ($gallery_object === NULL)
         {
             //No result found
@@ -128,7 +128,7 @@ class WPPG_General_Init_Tasks
         $album_id = $attrs['id'];
         $album_table = WPPG_TBL_ALBUM;
         //Let's get the gallery associated with this ID
-        $album_object = $wpdb->get_row("SELECT * FROM $album_table WHERE id = '".$album_id."'");
+        $album_object = $wpdb->get_row($wpdb->prepare("SELECT * FROM $album_table WHERE id = %d", $album_id));
         if ($album_object === NULL)
         {
             //No result found

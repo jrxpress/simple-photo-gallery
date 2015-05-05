@@ -3,7 +3,7 @@
 if (!class_exists('WP_Photo_Gallery')){
 
 class WP_Photo_Gallery{
-    var $version = '1.7.9';
+    var $version = '1.8.0';
     var $db_version = '1.3';
     var $plugin_url;
     var $plugin_path;
@@ -97,7 +97,7 @@ class WP_Photo_Gallery{
         }
     }
     
-    function activate_handler(){
+    static function activate_handler(){
         //Only runs when the plugin activates
         include_once ('classes/wppg-photo-installer.php');
         WP_Photo_Gallery_Installer::run_installer();

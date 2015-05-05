@@ -79,7 +79,7 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
         {
             if($_REQUEST['action'] == 'delete_album'){ //"Delete Album" link was clicked for a row in the list table
                 $album_id = strip_tags($_GET['id']);
-                $album = $wpdb->get_row("SELECT * FROM $album_table_name WHERE id = '$album_id'", OBJECT);
+                $album = $wpdb->get_row($wpdb->prepare("SELECT * FROM $album_table_name WHERE id = %d", $album_id), OBJECT);
 
                 if($album == NULL){
                     $errors .= '<p>Album with ID '.$album_id.' does not exist</p>';
@@ -227,7 +227,7 @@ class WP_Photo_Gallery_Album_Menu extends WP_Photo_Gallery_Admin_Menu
 
         if(isset($_GET['wppg_album_id'])){
             $album_id = strip_tags($_GET['wppg_album_id']);
-            $result = $wpdb->get_row("SELECT * FROM $album_table_name WHERE id = '$album_id'", ARRAY_A);
+            $result = $wpdb->get_row($wpdb->prepare("SELECT * FROM $album_table_name WHERE id = %d", $album_id), ARRAY_A);
             if($result == NULL){
                 echo '<div id="message" class="error">' .__('No album found with ID: ','spgallery').$album_id. '</div>';
             }else{

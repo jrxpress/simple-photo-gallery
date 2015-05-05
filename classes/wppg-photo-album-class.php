@@ -49,7 +49,7 @@ class WPPGPhotoAlbum
         global $wp_photo_gallery, $wpdb;
         $page = array();
         $album_table_name = WPPG_TBL_ALBUM;
-        $sql = 'SELECT * from ' . $album_table_name . " WHERE id='$album_id'";
+        $sql = $wpdb->prepare("SELECT * FROM $album_table_name WHERE id = %d", $album_id);
         
         $album_obj = $wpdb->get_row($sql);
         $album_home_page_id = $wp_photo_gallery->configs->get_value('wppg_album_home_page_id');

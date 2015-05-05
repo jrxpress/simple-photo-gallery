@@ -11,7 +11,7 @@ class WPPG_Album_Template_1
         global $wp_photo_gallery;
         global $wpdb;
         $album_table_name = WPPG_TBL_ALBUM;
-        $album_object = $wpdb->get_row("SELECT * FROM $album_table_name WHERE id = '$album_id'", OBJECT);
+        $album_object = $wpdb->get_row($wpdb->prepare("SELECT * FROM $album_table_name WHERE id = %d", $album_id), OBJECT);
 
         if($album_object == NULL){
            $wp_photo_gallery->debug_logger->log_debug('[' . basename(__FILE__) . ' - line ' . __LINE__ . "] wppg_photo_album shortcode - No album found with ID ".$album_id);

@@ -109,7 +109,7 @@ class WPPG_List_Albums extends WP_Photo_Gallery_List_Table {
         elseif ($entries != NULL)
         {
             //Delete single record
-            $delete_command = "DELETE FROM ".$album_table." WHERE id = '".absint($entries)."'";
+            $delete_command = $wpdb->prepare("DELETE FROM ".$album_table." WHERE id = %d", absint($entries));
             $result = $wpdb->query($delete_command);
             if($result != NULL)
             {
@@ -142,10 +142,16 @@ class WPPG_List_Albums extends WP_Photo_Gallery_List_Table {
         $album_table = WPPG_TBL_ALBUM;
 
 	/* -- Ordering parameters -- */
-	    //Parameters that are going to be used to order the result
-	$orderby = !empty($_GET["orderby"]) ? mysql_real_escape_string($_GET["orderby"]) : 'id';
-	$order = !empty($_GET["order"]) ? mysql_real_escape_string($_GET["order"]) : 'ASC';
+	//Parameters that are going to be used to order the result
+        isset($_GET["orderby"]) ? $orderby = strip_tags($_GET["orderby"]): $orderby = '';
+        isset($_GET["order"]) ? $order = strip_tags($_GET["order"]): $order = '';
+	
+        $orderby = !empty($_GET["orderby"]) ? esc_sql($_GET["orderby"]) : 'id';
+	$order = !empty($_GET["order"]) ? esc_sql($_GET["order"]) : 'ASC';
 
+        $orderby = WP_Photo_Gallery_Utility::sanitize_value_by_array($orderby, $sortable);
+        $order = WP_Photo_Gallery_Utility::sanitize_value_by_array($order, array('DESC' => '1', 'ASC' => '1'));
+        
 	$data = $wpdb->get_results("SELECT * FROM $album_table ORDER BY $orderby $order", ARRAY_A);
         $current_page = $this->get_pagenum();
         $total_items = count($data);
